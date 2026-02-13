@@ -1,0 +1,126 @@
+ProjectReport.pdf Table of Contents (Draft)
+1.	Phase 1 – Project Setup & Initial Folder Structure 
+2.	Phase 2 – Bootloader & Kernel Entry
+3.	Phase 3 – Memory Management & MMU Initialization
+4.	Phase 4 – System Calls & Userland Interface
+5.	Phase 5 – Drivers & Device Model
+6.	Phase 6 – File System & VFS Layer
+7.	Phase 7 – GUI & Compositor
+8.	Phase 8 – Testing, CI, and Final Packaging
+9.	References & Resources
+________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Phase 1 – Project Setup & Initial Folder Structure
+Objective:
+Set up the initial repository and project structure for Arion, ensuring a modular and maintainable layout that supports future expansion (kernel, drivers, user apps, GUI, etc.) and prepares for building in virtual machines.
+Tasks Completed:
+1.	Created the main repository: OS/.
+2.	Added essential top-level files:
+o	README.md → project overview and setup instructions
+o	ProjectReport.pdf → this report documenting progress
+3.	Designed initial folder hierarchy inside `OS/`:
+```
+OS/
+├── include/           # Global header files (kernel, arch, user ABI)
+├── boot/              # BIOS/UEFI bootloader code
+├── kernel/            # Kernel source (core, sched, syscall)
+├── arch/              # Architecture-specific code (x86_64)
+├── mm/                # Memory management modules
+├── drivers/           # Device drivers (pci, input, display)
+├── fs/                # Filesystem modules
+├── net/               # Networking modules
+├── libk/              # Kernel library
+├── user/              # Userland programs & libc
+├── gui/               # GUI / compositor
+├── tools/             # Build and utility tools
+├── scripts/           # Build / run / packaging scripts
+├── tests/             # Unit and integration tests
+├── build/             # Out-of-tree build outputs
+├── iso/               # Final ISO images for VM
+├── config/            # Build-time config & feature toggles
+└── doc/               # Documentation (BUILD.md, DESIGN.md)
+
+```
+Key Decisions & Rationale:
+
+•	include/ is the single source of truth for all headers.
+•	kernel and user code are strictly separated to maintain clean user/kernel boundaries.
+•	Prepared structure to easily integrate syscalls, drivers, GUI, filesystem, and networking in future phases.
+•	Out-of-tree build/ keeps repository clean and simplifies cross-architecture builds.
+•	Scripts are placed in scripts/ to allow both Linux and Windows (PowerShell) builds.
+Outcome:
+•	Phase 1 establishes the foundation of Arion.
+•	Project hierarchy ensures modularity, scalability, and maintainability for all remaining phases.
+
+________________________________________
+
+Phase 2 – Long Mode Transition & x86_64 Bootstrap
+Objective:
+Transition the CPU from 32-bit protected mode to 64-bit long mode, implement a proper bootloader entry point with paging and GDT setup, and verify the kernel can execute 64-bit code.
+
+Tasks Completed:
+1.	Implemented comprehensive bootloader in arch/x86_64/boot/entry.asm:
+o	Multiboot header for GRUB compatibility
+o	CPUID support detection
+o	Long mode capability verification
+o	4-level paging setup (PML4 → PDPT → PD)
+o	Identity mapping of first 2GB using 2MB huge pages
+o	GDT setup for 64-bit code and data segments
+o	PAE (Physical Address Extension) enablement
+o	EFER.LME bit configuration for long mode
+o	Far jump to 64-bit code segment
+o	Stack initialization
+
+2.	Enhanced kernel entry point in kernel/core/kernel.c:
+o	Professional boot banner displaying "Arion Operating System [x86_64]"
+o	Phase 2 completion message
+o	Confirmation of 64-bit long mode execution
+
+3.	Updated build system:
+o	Modified kernel/Makefile for 64-bit compilation
+o	Changed assembler from GNU as to nasm (elf64 format)
+o	Updated compiler flags: -mcmodel=large, -mno-red-zone
+o	Removed 32-bit flags (-m32, -m elf_i386)
+
+4.	Enhanced linker script (kernel/linker.ld):
+o	Added 4K alignment for all sections
+o	Proper BSS section for page tables and stack
+o	Discarded unnecessary sections (.comment, .eh_frame, .note*)
+
+5.	Verified VGA text mode output works in 64-bit mode (libk/printf.c)
+
+Key Decisions & Rationale:
+•	Identity mapping: Simplifies initial boot process; higher-half mapping deferred to Phase 3
+•	2MB huge pages: Reduces TLB pressure and simplifies page table management
+•	4-level paging: Required for x86_64 long mode
+•	Stack in BSS: 16KB stack allocated in uninitialized data section
+•	nasm over GNU as: Better support for x86_64 assembly and clearer syntax
+
+Technical Details:
+•	PML4 Table: Single entry pointing to PDPT
+•	PDPT Table: Single entry pointing to PD
+•	PD Table: 1024 entries (2MB each) = 2GB mapped
+•	GDT: Null descriptor + 64-bit code segment + 64-bit data segment
+•	Long mode verification: Checks CPUID extended features (bit 29)
+
+Outcome:
+•	Phase 2 successfully transitions Arion to 64-bit long mode
+•	Kernel executes native x86_64 code
+•	Foundation established for memory management, process management, and system calls
+•	Ready for Phase 3: Core Kernel & Process Management
+
+

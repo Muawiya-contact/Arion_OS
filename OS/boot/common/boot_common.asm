@@ -1,0 +1,1 @@
+; Boot common routines (scaffold)
