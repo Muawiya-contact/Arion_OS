@@ -1,0 +1,31 @@
+SubDir HAIKU_TOP src bin multiuser ;
+
+UsePrivateSystemHeaders ;
+UsePrivateHeaders app ;
+UsePrivateHeaders kernel ;
+	# for <util/KMessage.h>
+UsePrivateHeaders libroot ;
+UsePrivateHeaders shared ;
+UseHeaders [ FDirName $(HAIKU_TOP) headers compatibility bsd ] : true ;
+
+StaticLibrary libmultiuser_utils.a : multiuser_utils.cpp ;
+
+Application login : login.cpp : libmultiuser_utils.a libbsd.so ;
+
+Application su : su.cpp : libmultiuser_utils.a libbsd.so ;
+
+Application passwd : passwd.cpp : libmultiuser_utils.a libbsd.so ;
+
+Application useradd : useradd.cpp ;
+
+Application userdel : userdel.cpp ;
+
+Application groupadd : groupadd.cpp ;
+
+Application groupdel : groupdel.cpp ;
+
+Application groupmod : groupmod.cpp : [ TargetLibstdc++ ] ;
+
+# set set-uid bit on passwd, su
+MODE on passwd = 04755 ;
+MODE on su = 04755 ;

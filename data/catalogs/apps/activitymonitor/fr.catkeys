@@ -1,0 +1,48 @@
+1	french	x-vnd.Haiku-ActivityMonitor	2467534740
+Teams	DataSource		Processus
+Block cache memory	DataSource		Mémoire cache de blocs
+Media nodes	DataSource		Nœuds média
+Network send	DataSource		Émission réseau
+Threads	DataSource		Tâches
+Remove graph	ActivityView		Supprimer un graphe
+ActivityMonitor	System name		Moniteur d’activité
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Fréquence de mise à jour :
+Settings…	ActivityWindow		Réglages…
+Block cache	DataSource		Cache blocs
+Memory	DataSource		Mémoire
+CPU speed	DataSource		Fréquence CPU
+CPU usage	DataSource		Activité CPU
+Raw clipboard	DataSource		Presse-papier brut
+Settings	ActivityWindow		Réglages
+Used memory	DataSource		Mémoire utilisée
+Cached memory	DataSource		Mémoire cache
+Ports	DataSource		Ports
+Apps	DataSource		Applis
+Page faults	DataSource		Fautes de pages
+Add graph	ActivityWindow		Ajouter un graphe
+Swap	DataSource		Échange
+%s faults/s	DataSource		%s défauts/s
+Semaphores	DataSource		Sémaphores
+TX	DataSource	Shorter version for Sending	Tx
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Presse-papier texte
+Running applications	DataSource		Applications en cours
+Cache	DataSource		Cache
+CPU usage (combined)	DataSource		Activité CPU (combinée)
+Receiving	DataSource		Réception
+Swap space	DataSource		Espace d’échange
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	Rx
+Quit	ActivityWindow		Quitter
+Show legend	ActivityView		Afficher la légende
+File	ActivityWindow		Fichier
+CPU %d speed	DataSource		Fréquence CPU %d
+CPU %d usage	DataSource		Charge du CPU %d
+Additional items	ActivityView		Éléments supplémentaires
+Sending	DataSource		Émission
+Always on top	ActivityWindow		Toujours au-dessus
+Sems	DataSource		Sems
+P-faults	DataSource		P-fautes
+%lld sec.	SettingsWindow		%lld sec.
+Network receive	DataSource		Réception réseau

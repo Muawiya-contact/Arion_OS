@@ -1,0 +1,21 @@
+1	czech	x-vnd.Haiku-NetworkStatus	2510618206
+IPv6 address:	NetworkStatusView		Adresa IPv6:
+Quit	NetworkStatusView		Zavřít
+Unknown	NetworkStatusView		Neznámý
+Launching the network preflet failed.\n\nError: 	NetworkStatusView		Spuštění okýnka voleb sítě selhalo.\n\nChyba: 
+Install in Deskbar	NetworkStatus		Nainstalovat do Deskbaru
+Open network preferences…	NetworkStatusView		Otevřít volby sítě…
+NetworkStatus	System name		Stav sítě
+Broadcast:	NetworkStatusView		Všesměrové:
+OK	NetworkStatusView		OK
+No link	NetworkStatusView		Odpojeno
+Could not join wireless network:\n	NetworkStatusView		Nemohu se připojit do bezdrátové sítě:\n
+Network Status	NetworkStatusView		Stav sítě
+Deskbar is not running, giving up.	NetworkStatus		Panel není spuštěn, vzdávám to.
+Netmask:	NetworkStatusView		Maska sítě:
+No stateful configuration	NetworkStatusView		Žádná uvedená konfigurace
+IPv4 address:	NetworkStatusView		Adresa IPv4:
+%ifaceName information:\n	NetworkStatusView		%ifaceName informace:\n
+Run in window	NetworkStatus		Spustit v okně
+<no wireless networks found>	NetworkStatusView		<nebyly nalezeny žádné bezdrátové sítě>
+Configuring	NetworkStatusView		Nastavuji

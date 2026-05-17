@@ -1,0 +1,43 @@
+1	slovak	x-vnd.Haiku-ActivityMonitor	4165509559
+Teams	DataSource		Tímy
+Block cache memory	DataSource		Bloková vyrovnávacia pamäť
+Media nodes	DataSource		Mediálne uzly
+Network send	DataSource		Sieť - odoslané
+Threads	DataSource		Vlákna
+Remove graph	ActivityView		Odstrániť graf
+ActivityMonitor	System name		Monitor aktivity
+Update time interval:	SettingsWindow		Časový interval aktualizácie:
+Settings…	ActivityWindow		Nastavenia…
+Block cache	DataSource		Bloková cache
+Memory	DataSource		Pamäť
+CPU usage	DataSource		Využitie CPU
+Raw clipboard	DataSource		Schránka bez formátu
+Settings	ActivityWindow		Nastavenia
+Used memory	DataSource		Využitá pamäť
+Cached memory	DataSource		Pamäť v cache
+Ports	DataSource		Porty
+Apps	DataSource		Aplikácie
+Page faults	DataSource		Výpadky stránok
+Add graph	ActivityWindow		Pridať graf
+Swap	DataSource		Odkladací priestor
+Semaphores	DataSource		Semafory
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Textová schránka
+Running applications	DataSource		Bežiace aplikácie
+Cache	DataSource		Vyrovnávacia pamäť
+CPU usage (combined)	DataSource		Využitie CPU (kombinované)
+Receiving	DataSource		Prijíma sa
+Swap space	DataSource		Odkladací priestor
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Ukončiť
+Show legend	ActivityView		Zobraziť legendu
+File	ActivityWindow		Súbor
+Additional items	ActivityView		Ďalšie položky
+Sending	DataSource		Posiela sa
+Always on top	ActivityWindow		Vždy na vrchu
+Sems	DataSource		Semafory
+P-faults	DataSource		P-fault
+%lld sec.	SettingsWindow		%lld sek.
+Network receive	DataSource		Sieť - prijaté

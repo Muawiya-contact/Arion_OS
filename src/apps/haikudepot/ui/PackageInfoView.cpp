@@ -1,0 +1,1763 @@
+/*
+ * Copyright 2013-2014, Stephan Aßmus <superstippi@gmx.de>.
+ * Copyright 2018-2026, Andrew Lindesay <apl@lindesay.co.nz>.
+ * All rights reserved. Distributed under the terms of the MIT License.
+ */
+
+
+#include "PackageInfoView.h"
+
+#include <algorithm>
+
+#include <Bitmap.h>
+#include <Button.h>
+#include <CardLayout.h>
+#include <Catalog.h>
+#include <ControlLook.h>
+#include <Font.h>
+#include <GridView.h>
+#include <LayoutBuilder.h>
+#include <LayoutUtils.h>
+#include <LocaleRoster.h>
+#include <Message.h>
+#include <ScrollView.h>
+#include <SpaceLayoutItem.h>
+#include <StatusBar.h>
+#include <StringView.h>
+#include <TabView.h>
+#include <Url.h>
+
+#include "BitmapView.h"
+#include "GeneralContentScrollView.h"
+#include "InterfaceDefs.h"
+#include "LinkView.h"
+#include "LinkedBitmapView.h"
+#include "LocaleUtils.h"
+#include "Logger.h"
+#include "MarkupTextView.h"
+#include "NotAvailableStringView.h"
+#include "PackageContentsView.h"
+#include "PackageInfo.h"
+#include "PackageManager.h"
+#include "PackageUtils.h"
+#include "RatingView.h"
+#include "ScrollableGroupView.h"
+#include "ServerHelper.h"
+#include "SharedIcons.h"
+#include "TextView.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "PackageInfoView"
+
+
+enum {
+	TAB_ABOUT = 0,
+	TAB_RATINGS = 1,
+	TAB_CHANGELOG = 2,
+	TAB_CONTENTS = 3
+};
+
+
+enum {
+	CARD_AVAILABLE = 0,
+	CARD_NOT_AVAILABLE = 1
+};
+
+
+static const float kContentTint = (B_NO_TINT + B_LIGHTEN_1_TINT) / 2.0f;
+static const uint32 kScreenshotSize = 320;
+
+
+class RatingsScrollView : public GeneralContentScrollView {
+public:
+	RatingsScrollView(const char* name, BView* target)
+		:
+		GeneralContentScrollView(name, target)
+	{
+	}
+
+	virtual void DoLayout()
+	{
+		GeneralContentScrollView::DoLayout();
+
+		BScrollBar* scrollBar = ScrollBar(B_VERTICAL);
+		BView* target = Target();
+		if (target != NULL && scrollBar != NULL) {
+			// Set the scroll steps
+			BView* item = target->ChildAt(0);
+			if (item != NULL)
+				scrollBar->SetSteps(item->MinSize().height + 1, item->MinSize().height + 1);
+		}
+	}
+};
+
+
+// #pragma mark - rating stats
+
+
+class DiagramBarView : public BView {
+public:
+	DiagramBarView()
+		:
+		BView("diagram bar view", B_WILL_DRAW),
+		fValue(0.0f)
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+		SetHighUIColor(B_CONTROL_MARK_COLOR);
+	}
+
+	virtual ~DiagramBarView()
+	{
+	}
+
+	virtual void AttachedToWindow()
+	{
+	}
+
+	virtual void Draw(BRect updateRect)
+	{
+		FillRect(updateRect, B_SOLID_LOW);
+
+		if (fValue <= 0.0f)
+			return;
+
+		BRect rect(Bounds());
+		rect.right = ceilf(rect.left + fValue * rect.Width());
+
+		FillRect(rect, B_SOLID_HIGH);
+	}
+
+	virtual BSize MinSize()
+	{
+		return BSize(64, 10);
+	}
+
+	virtual BSize PreferredSize()
+	{
+		return MinSize();
+	}
+
+	virtual BSize MaxSize()
+	{
+		return BSize(64, 10);
+	}
+
+	void SetValue(float value)
+	{
+		if (fValue != value) {
+			fValue = value;
+			Invalidate();
+		}
+	}
+
+private:
+	float			fValue;
+};
+
+
+// #pragma mark - TitleView
+
+
+enum {
+	MSG_MOUSE_ENTERED_RATING = 'menr',
+	MSG_MOUSE_EXITED_RATING = 'mexr',
+};
+
+
+class TransitReportingButton : public BButton {
+public:
+	TransitReportingButton(const char* name, const char* label, BMessage* message)
+		:
+		BButton(name, label, message),
+		fTransitMessage(NULL)
+	{
+	}
+
+	virtual ~TransitReportingButton()
+	{
+		SetTransitMessage(NULL);
+	}
+
+	virtual void MouseMoved(BPoint point, uint32 transit, const BMessage* dragMessage)
+	{
+		BButton::MouseMoved(point, transit, dragMessage);
+
+		if (fTransitMessage != NULL && transit == B_EXITED_VIEW)
+			Invoke(fTransitMessage);
+	}
+
+	void SetTransitMessage(BMessage* message)
+	{
+		if (fTransitMessage != message) {
+			delete fTransitMessage;
+			fTransitMessage = message;
+		}
+	}
+
+private:
+	BMessage*	fTransitMessage;
+};
+
+
+class TransitReportingRatingView : public RatingView, public BInvoker {
+public:
+	TransitReportingRatingView(BMessage* transitMessage)
+		:
+		RatingView("package rating view"),
+		fTransitMessage(transitMessage)
+	{
+	}
+
+	virtual ~TransitReportingRatingView()
+	{
+		delete fTransitMessage;
+	}
+
+	virtual void MouseMoved(BPoint point, uint32 transit,
+		const BMessage* dragMessage)
+	{
+		RatingView::MouseMoved(point, transit, dragMessage);
+
+		if (fTransitMessage != NULL && transit == B_ENTERED_VIEW)
+			Invoke(fTransitMessage);
+	}
+
+private:
+	BMessage*	fTransitMessage;
+};
+
+
+class TitleView : public BGroupView {
+public:
+	TitleView(Model* model)
+		:
+		BGroupView("title view", B_HORIZONTAL),
+		fModel(model)
+	{
+		fIconView = new BitmapView("package icon view");
+		fTitleView = new BStringView("package title view", "");
+		fPublisherView = new BStringView("package publisher view", "");
+
+		// Title font
+		BFont font;
+		GetFont(&font);
+		font_family family;
+		font_style style;
+		font.SetSize(ceilf(font.Size() * 1.5f));
+		font.GetFamilyAndStyle(&family, &style);
+		font.SetFamilyAndStyle(family, "Bold");
+		fTitleView->SetFont(&font);
+
+		// Publisher font
+		GetFont(&font);
+		font.SetSize(std::max(9.0f, floorf(font.Size() * 0.92f)));
+		font.SetFamilyAndStyle(family, "Italic");
+		fPublisherView->SetFont(&font);
+		fPublisherView->SetHighUIColor(B_PANEL_TEXT_COLOR, B_LIGHTEN_1_TINT);
+
+		// slightly bigger font
+		GetFont(&font);
+		font.SetSize(ceilf(font.Size() * 1.2f));
+
+		// Version info
+		fVersionInfo = new BStringView("package version info", "");
+		fVersionInfo->SetFont(&font);
+		fVersionInfo->SetHighUIColor(B_PANEL_TEXT_COLOR, B_LIGHTEN_1_TINT);
+
+		// Rating view
+		fRatingView = new TransitReportingRatingView(
+			new BMessage(MSG_MOUSE_ENTERED_RATING));
+
+		fAvgRating = new BStringView("package average rating", "");
+		fAvgRating->SetFont(&font);
+		fAvgRating->SetHighUIColor(B_PANEL_TEXT_COLOR, B_LIGHTEN_1_TINT);
+
+		fVoteInfo = new BStringView("package vote info", "");
+		// small font
+		GetFont(&font);
+		font.SetSize(std::max(9.0f, floorf(font.Size() * 0.85f)));
+		fVoteInfo->SetFont(&font);
+		fVoteInfo->SetHighUIColor(B_PANEL_TEXT_COLOR, B_LIGHTEN_1_TINT);
+
+		// Rate button
+		fRateButton = new TransitReportingButton("rate",
+			B_TRANSLATE("Rate package" B_UTF8_ELLIPSIS), new BMessage(MSG_RATE_PACKAGE));
+		fRateButton->SetTransitMessage(new BMessage(MSG_MOUSE_EXITED_RATING));
+		fRateButton->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_VERTICAL_CENTER));
+
+		// Rating group
+		BView* ratingStack = new BView("rating stack", 0);
+		fRatingLayout = new BCardLayout();
+		ratingStack->SetLayout(fRatingLayout);
+		ratingStack->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+		ratingStack->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+
+		BGroupView* ratingGroup = new BGroupView(B_HORIZONTAL, B_USE_SMALL_SPACING);
+		BLayoutBuilder::Group<>(ratingGroup)
+			.Add(fRatingView)
+			.Add(fAvgRating)
+			.Add(fVoteInfo)
+		;
+
+		ratingStack->AddChild(ratingGroup);
+		ratingStack->AddChild(fRateButton);
+		fRatingLayout->SetVisibleItem((int32)0);
+
+		BLayoutBuilder::Group<>(this)
+			.Add(fIconView)
+			.AddGroup(B_VERTICAL, 1.0f, 2.2f)
+				.Add(fTitleView)
+				.Add(fPublisherView)
+				.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET))
+			.End()
+			.AddGlue(0.1f)
+			.Add(ratingStack, 0.8f)
+			.AddGlue(0.2f)
+			.AddGroup(B_HORIZONTAL, B_USE_SMALL_SPACING, 2.0f)
+				.Add(fVersionInfo)
+				.AddGlue()
+				.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET))
+			.End();
+
+		Clear();
+	}
+
+	virtual ~TitleView()
+	{
+	}
+
+	virtual void AttachedToWindow()
+	{
+		fRateButton->SetTarget(this);
+		fRatingView->SetTarget(this);
+	}
+
+	virtual void MessageReceived(BMessage* message)
+	{
+		switch (message->what) {
+			case MSG_RATE_PACKAGE:
+				// Forward to window (The button has us as target so
+				// we receive the message below.)
+				Window()->PostMessage(MSG_RATE_PACKAGE);
+				break;
+
+			case MSG_MOUSE_ENTERED_RATING:
+				fRatingLayout->SetVisibleItem(1);
+				break;
+
+			case MSG_MOUSE_EXITED_RATING:
+				fRatingLayout->SetVisibleItem((int32)0);
+				break;
+		}
+	}
+
+	void SetIcon(const PackageInfoRef package)
+	{
+		if (!package.IsSet()) {
+			fIconView->UnsetBitmap();
+		} else {
+			BitmapHolderRef bitmapHolderRef;
+			BSize iconSize = BControlLook::ComposeIconSize(32.0);
+			status_t iconResult = B_OK;
+			PackageIconRepositoryRef iconRepository = _PackageIconRepository();
+
+			if (iconRepository.IsSet()) {
+				iconResult = iconRepository->GetIcon(package->Name(), iconSize.Width() + 1,
+					bitmapHolderRef);
+			} else {
+				iconResult = B_NOT_INITIALIZED;
+			}
+
+			if (iconResult == B_OK)
+				fIconView->SetBitmap(bitmapHolderRef);
+			else
+				fIconView->UnsetBitmap();
+		}
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		SetIcon(package);
+
+		BString title;
+		PackageUtils::TitleOrName(package, title);
+		fTitleView->SetText(title);
+
+		BString publisherName = PackageUtils::PublisherName(package);
+		BString versionString = "???";
+
+		PackageCoreInfoRef coreInfo = package->CoreInfo();
+
+		if (coreInfo.IsSet()) {
+			PackageVersionRef version = coreInfo->Version();
+
+			if (version.IsSet())
+				versionString = version->ToString();
+		}
+
+		if (publisherName.CountChars() > 45) {
+			fPublisherView->SetToolTip(publisherName);
+			fPublisherView->SetText(publisherName.TruncateChars(45).Append(B_UTF8_ELLIPSIS));
+		} else {
+			fPublisherView->SetToolTip("");
+			fPublisherView->SetText(publisherName);
+		}
+
+		fVersionInfo->SetText(versionString);
+
+		PackageUserRatingInfoRef userRatingInfo = package->UserRatingInfo();
+		UserRatingSummaryRef userRatingSummary;
+
+		if (userRatingInfo.IsSet())
+			userRatingSummary = userRatingInfo->Summary();
+
+		bool hasAverageRating = false;
+
+		if (userRatingSummary.IsSet()) {
+			if (userRatingSummary->AverageRating() != RATING_MISSING)
+				hasAverageRating = true;
+		}
+
+		if (hasAverageRating) {
+			fRatingView->SetRating(userRatingSummary->AverageRating());
+
+			BString avgRating;
+			avgRating.SetToFormat("%.1f", userRatingSummary->AverageRating());
+			fAvgRating->SetText(avgRating);
+
+			BString votes;
+			votes.SetToFormat("%d", userRatingSummary->RatingCount());
+
+			BString voteInfo(B_TRANSLATE("(%Votes%)"));
+			voteInfo.ReplaceAll("%Votes%", votes);
+
+			fVoteInfo->SetText(voteInfo);
+		} else {
+			fRatingView->SetRating(RATING_MISSING);
+			fAvgRating->SetText("");
+			fVoteInfo->SetText(B_TRANSLATE("n/a"));
+		}
+
+		fRatingLayout->SetVisible(_PackageCanHaveRatings(package));
+
+		InvalidateLayout();
+		Invalidate();
+	}
+
+	void Clear()
+	{
+		fIconView->UnsetBitmap();
+		fTitleView->SetText("");
+		fPublisherView->SetText("");
+		fVersionInfo->SetText("");
+		fRatingView->SetRating(RATING_MISSING);
+		fAvgRating->SetText("");
+		fVoteInfo->SetText("");
+	}
+
+private:
+
+	PackageIconRepositoryRef _PackageIconRepository()
+	{
+		return fModel->IconRepository();
+	}
+
+	/*!	It is only possible for a package to have ratings if it is associated with a server-side
+		repository (depot). Otherwise there will be no means to display ratings.
+	*/
+	bool _PackageCanHaveRatings(const PackageInfoRef package)
+	{
+		BString depotName = PackageUtils::DepotName(package);
+
+		if (depotName == SINGLE_PACKAGE_DEPOT_NAME)
+			return false;
+
+		const DepotInfoRef depotInfo = fModel->DepotForName(depotName);
+
+		if (depotInfo.IsSet())
+			return !depotInfo->WebAppRepositoryCode().IsEmpty();
+
+		return false;
+	}
+
+private:
+	Model*							fModel;
+
+	BitmapView*						fIconView;
+
+	BStringView*					fTitleView;
+	BStringView*					fPublisherView;
+
+	BStringView*					fVersionInfo;
+
+	BCardLayout*					fRatingLayout;
+
+	TransitReportingRatingView*		fRatingView;
+	BStringView*					fAvgRating;
+	BStringView*					fVoteInfo;
+
+	TransitReportingButton*			fRateButton;
+};
+
+
+// #pragma mark - PackageActionView
+
+
+class PackageActionView : public BView {
+public:
+	PackageActionView()
+		:
+		BView("about view", B_WILL_DRAW),
+		fLayout(new BGroupLayout(B_HORIZONTAL)),
+		fStatusLabel(NULL),
+		fStatusBar(NULL)
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+		SetLayout(fLayout);
+		fLayout->AddItem(BSpaceLayoutItem::CreateGlue());
+	}
+
+	virtual ~PackageActionView()
+	{
+		Clear();
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		if (PackageUtils::State(package) == DOWNLOADING)
+			AdoptDownloadProgress(package);
+		else
+			AdoptActions(package);
+	}
+
+	void AdoptActions(const PackageInfoRef package)
+	{
+		PackageManager manager(BPackageKit::B_PACKAGE_INSTALLATION_LOCATION_HOME);
+
+		// TODO: if the given package is either a system package
+		// or a system dependency, show a message indicating that status
+		// so the user knows why no actions are presented
+		std::vector<PackageActionRef> actions;
+		VectorCollector<PackageActionRef> actionsCollector(actions);
+		manager.CollectPackageActions(package, actionsCollector);
+
+		if (_IsClearNeededToAdoptActions(actions)) {
+			Clear();
+			_CreateAllNewButtonsForAdoptActions(actions);
+		} else {
+			_UpdateExistingButtonsForAdoptActions(actions);
+		}
+	}
+
+	void AdoptDownloadProgress(const PackageInfoRef package)
+	{
+		if (fButtons.CountItems() > 0)
+			Clear();
+
+		if (fStatusBar == NULL) {
+			fStatusLabel = new BStringView("progress label", B_TRANSLATE("Downloading:"));
+			fLayout->AddView(fStatusLabel);
+
+			fStatusBar = new BStatusBar("progress");
+			fStatusBar->SetMaxValue(100.0);
+			fStatusBar->SetExplicitMinSize(BSize(StringWidth("XXX") * 5, B_SIZE_UNSET));
+
+			fLayout->AddView(fStatusBar);
+		}
+
+		fStatusBar->SetTo(PackageUtils::DownloadProgress(package) * 100.0);
+	}
+
+	void Clear()
+	{
+		for (int32 i = fButtons.CountItems() - 1; i >= 0; i--) {
+			BButton* button = (BButton*)fButtons.ItemAtFast(i);
+			button->RemoveSelf();
+			delete button;
+		}
+		fButtons.MakeEmpty();
+
+		if (fStatusBar != NULL) {
+			fStatusBar->RemoveSelf();
+			delete fStatusBar;
+			fStatusBar = NULL;
+		}
+		if (fStatusLabel != NULL) {
+			fStatusLabel->RemoveSelf();
+			delete fStatusLabel;
+			fStatusLabel = NULL;
+		}
+	}
+
+private:
+	bool _IsClearNeededToAdoptActions(std::vector<PackageActionRef> actions)
+	{
+		if (fStatusBar != NULL)
+			return true;
+		if (fButtons.CountItems() != static_cast<int32>(actions.size()))
+			return true;
+		return false;
+	}
+
+	void _UpdateExistingButtonsForAdoptActions(std::vector<PackageActionRef> actions)
+	{
+		int32 index = 0;
+		for (int32 i = actions.size() - 1; i >= 0; i--) {
+			const PackageActionRef& action = actions[i];
+			BMessage* message = new BMessage(action->Message());
+			BButton* button = (BButton*)fButtons.ItemAtFast(index++);
+			button->SetLabel(action->Title());
+			button->SetMessage(message);
+			button->SetTarget(Window());
+		}
+	}
+
+	void _CreateAllNewButtonsForAdoptActions(std::vector<PackageActionRef> actions)
+	{
+		for (int32 i = actions.size() - 1; i >= 0; i--) {
+			const PackageActionRef& action = actions[i];
+			BMessage* message = new BMessage(action->Message());
+			BButton* button = new BButton(action->Title(), message);
+			fLayout->AddView(button);
+			button->SetTarget(this);
+			button->SetTarget(Window());
+			fButtons.AddItem(button);
+		}
+	}
+
+	bool _MatchesPackageActionMessage(BButton* button, BMessage* message)
+	{
+		if (button == NULL)
+			return false;
+		BMessage* buttonMessage = button->Message();
+		if (buttonMessage == NULL)
+			return false;
+		return buttonMessage == message;
+	}
+
+	/*!	Since the action has been fired; it should not be possible
+		to run it again because this may make no sense.  For this
+		reason, disable the corresponding button.
+	*/
+
+	void _DisableButtonForPackageActionMessage(BMessage* message)
+	{
+		for (int32 i = 0; i < fButtons.CountItems(); i++) {
+			BButton* button = static_cast<BButton*>(fButtons.ItemAt(i));
+			if (_MatchesPackageActionMessage(button, message))
+				button->SetEnabled(false);
+		}
+	}
+
+private:
+	BGroupLayout*		fLayout;
+	BList				fButtons;
+
+	BStringView*		fStatusLabel;
+	BStatusBar*			fStatusBar;
+};
+
+
+// #pragma mark - AboutView
+
+
+enum {
+	MSG_VISIT_PUBLISHER_WEBSITE = 'vpws',
+};
+
+
+class AboutView : public BView {
+public:
+	AboutView()
+		:
+		BView("about view", 0)
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		fDescriptionView = new MarkupTextView("description view");
+		fDescriptionView->SetViewUIColor(ViewUIColor(), kContentTint);
+		fDescriptionView->SetInsets(be_plain_font->Size());
+
+		BScrollView* scrollView
+			= new GeneralContentScrollView("description scroll view", fDescriptionView);
+
+		BFont smallFont;
+		GetFont(&smallFont);
+		smallFont.SetSize(std::max(9.0f, ceilf(smallFont.Size() * 0.85f)));
+
+		fScreenshotView
+			= new LinkedBitmapView("screenshot view", new BMessage(MSG_SHOW_SCREENSHOT));
+		fScreenshotView->SetExplicitMinSize(BSize(64.0f, 64.0f));
+		fScreenshotView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
+		fScreenshotView->SetExplicitAlignment(BAlignment(B_ALIGN_CENTER, B_ALIGN_TOP));
+
+		fWebsiteIconView = new BitmapView("website icon view");
+		fWebsiteLinkView
+			= new LinkView("website link view", "", new BMessage(MSG_VISIT_PUBLISHER_WEBSITE));
+		fWebsiteLinkView->SetFont(&smallFont);
+
+		BGroupView* leftGroup = new BGroupView(B_VERTICAL, B_USE_DEFAULT_SPACING);
+
+		fScreenshotView->SetViewUIColor(ViewUIColor(), kContentTint);
+		fWebsiteLinkView->SetViewUIColor(ViewUIColor(), kContentTint);
+
+		BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0.0f)
+			.AddGroup(leftGroup, 1.0f)
+				.Add(fScreenshotView)
+				.AddGroup(B_HORIZONTAL)
+					.AddGrid(B_USE_HALF_ITEM_SPACING, B_USE_HALF_ITEM_SPACING)
+						.Add(fWebsiteIconView, 0, 1)
+						.Add(fWebsiteLinkView, 1, 1)
+					.End()
+				.End()
+				.SetInsets(B_USE_DEFAULT_SPACING)
+				.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET))
+			.End()
+			.Add(scrollView, 2.0f)
+
+			.SetExplicitMaxSize(BSize(B_SIZE_UNSET, B_SIZE_UNLIMITED))
+			.SetInsets(0.0f, -1.0f, -1.0f, -1.0f);
+	}
+
+	virtual ~AboutView()
+	{
+		Clear();
+	}
+
+	virtual void AttachedToWindow()
+	{
+		fScreenshotView->SetTarget(this);
+		fWebsiteLinkView->SetTarget(this);
+	}
+
+	virtual void AllAttached()
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		for (int32 index = 0; index < CountChildren(); ++index)
+			ChildAt(index)->AdoptParentColors();
+	}
+
+	virtual void MessageReceived(BMessage* message)
+	{
+		switch (message->what) {
+			case MSG_SHOW_SCREENSHOT:
+			{
+				// Forward to window for now
+				Window()->PostMessage(message, Window());
+				break;
+			}
+
+			case MSG_VISIT_PUBLISHER_WEBSITE:
+			{
+				BUrl url(fWebsiteLinkView->Text(), true);
+				url.OpenWithPreferredApplication();
+				break;
+			}
+
+			default:
+				BView::MessageReceived(message);
+				break;
+		}
+	}
+
+	void SetScreenshotThumbnail(BitmapHolderRef bitmapHolderRef)
+	{
+		if (bitmapHolderRef.IsSet()) {
+			fScreenshotView->SetBitmap(bitmapHolderRef);
+			fScreenshotView->SetEnabled(true);
+		} else {
+			fScreenshotView->UnsetBitmap();
+			fScreenshotView->SetEnabled(false);
+		}
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		BString summary = "";
+		BString description = "";
+		BString publisherWebsite = "";
+
+		if (package.IsSet()) {
+			PackageLocalizedTextRef localizedText = package->LocalizedText();
+
+			if (localizedText.IsSet()) {
+				summary = localizedText->Summary();
+				description = localizedText->Description();
+			}
+
+			PackageCoreInfoRef coreInfo = package->CoreInfo();
+
+			if (coreInfo.IsSet()) {
+				PackagePublisherInfoRef publisher = coreInfo->Publisher();
+
+				if (publisher.IsSet())
+					publisherWebsite = publisher->Website();
+			}
+		}
+
+		fDescriptionView->SetText(summary, description);
+		fWebsiteIconView->SetBitmap(SharedIcons::IconHTMLPackage16Scaled());
+		_SetContactInfo(fWebsiteLinkView, publisherWebsite);
+	}
+
+	void Clear()
+	{
+		fDescriptionView->SetText("");
+		fWebsiteIconView->UnsetBitmap();
+		fWebsiteLinkView->SetText("");
+		fScreenshotView->UnsetBitmap();
+		fScreenshotView->SetEnabled(false);
+	}
+
+private:
+	void _SetContactInfo(LinkView* view, const BString& string)
+	{
+		if (string.Length() > 0) {
+			view->SetText(string);
+			view->SetEnabled(true);
+		} else {
+			view->SetText(B_TRANSLATE("<no info>"));
+			view->SetEnabled(false);
+		}
+	}
+
+private:
+	MarkupTextView*		fDescriptionView;
+
+	LinkedBitmapView*	fScreenshotView;
+
+	BitmapView*			fWebsiteIconView;
+	LinkView*			fWebsiteLinkView;
+};
+
+
+// #pragma mark - UserRatingsView
+
+
+class RatingItemView : public BGroupView {
+public:
+	RatingItemView(const UserRatingRef rating)
+		:
+		BGroupView(B_HORIZONTAL, 0.0f)
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		BGroupLayout* verticalGroup = new BGroupLayout(B_VERTICAL, 0.0f);
+		GroupLayout()->AddItem(verticalGroup);
+
+		{
+			BStringView* userNicknameView
+				= new BStringView("user-nickname", rating->User().NickName());
+			userNicknameView->SetFont(be_bold_font);
+			verticalGroup->AddView(userNicknameView);
+		}
+
+		BGroupLayout* ratingGroup = new BGroupLayout(B_HORIZONTAL, B_USE_DEFAULT_SPACING);
+		verticalGroup->AddItem(ratingGroup);
+
+		if (rating->Rating() >= 0) {
+			RatingView* ratingView = new RatingView("package rating view");
+			ratingView->SetRating(rating->Rating());
+			ratingGroup->AddView(ratingView);
+		}
+
+		{
+			BString createTimestampPresentation
+				= LocaleUtils::TimestampToDateTimeString(rating->CreateTimestamp());
+
+			BString ratingContextDescription(B_TRANSLATE("%hd.timestamp% (version %hd.version%)"));
+			ratingContextDescription.ReplaceAll("%hd.timestamp%", createTimestampPresentation);
+			ratingContextDescription.ReplaceAll("%hd.version%", rating->PackageVersion());
+
+			BStringView* ratingContextView
+				= new BStringView("rating-context", ratingContextDescription);
+			BFont versionFont(be_plain_font);
+			ratingContextView->SetFont(&versionFont);
+			ratingGroup->AddView(ratingContextView);
+		}
+
+		ratingGroup->AddItem(BSpaceLayoutItem::CreateGlue());
+
+		if (rating->Comment() > 0) {
+			TextView* textView = new TextView("rating-text");
+			ParagraphStyle paragraphStyle(textView->ParagraphStyle());
+			paragraphStyle.SetJustify(true);
+			textView->SetParagraphStyle(paragraphStyle);
+			textView->SetText(rating->Comment());
+			verticalGroup->AddItem(BSpaceLayoutItem::CreateVerticalStrut(8.0f));
+			verticalGroup->AddView(textView);
+			verticalGroup->AddItem(BSpaceLayoutItem::CreateVerticalStrut(8.0f));
+		}
+
+		verticalGroup->SetInsets(B_USE_DEFAULT_SPACING);
+
+		SetFlags(Flags() | B_WILL_DRAW);
+	}
+
+	void AllAttached()
+	{
+		for (int32 index = 0; index < CountChildren(); ++index)
+			ChildAt(index)->AdoptParentColors();
+	}
+
+	void Draw(BRect rect)
+	{
+		rgb_color color = mix_color(ViewColor(), ui_color(B_PANEL_TEXT_COLOR), 64);
+		SetHighColor(color);
+		StrokeLine(Bounds().LeftBottom(), Bounds().RightBottom());
+	}
+};
+
+
+/*!	This class will draw a little graphic of the relative count of the ratings
+	that have been assigned to the package.
+*/
+class RatingSummaryView : public BGridView {
+public:
+	RatingSummaryView()
+		:
+		BGridView("rating summary view", B_USE_HALF_ITEM_SPACING, 0.0f)
+	{
+		float tint = kContentTint - 0.1;
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, tint);
+
+		BLayoutBuilder::Grid<> layoutBuilder(this);
+
+		BFont smallFont;
+		GetFont(&smallFont);
+		smallFont.SetSize(std::max(9.0f, floorf(smallFont.Size() * 0.85f)));
+
+		for (int32 i = 0; i < 5; i++) {
+			BString label;
+			label.SetToFormat("%" B_PRId32, 5 - i);
+			fLabelViews[i] = new BStringView("", label);
+			fLabelViews[i]->SetFont(&smallFont);
+			fLabelViews[i]->SetViewUIColor(ViewUIColor(), tint);
+			layoutBuilder.Add(fLabelViews[i], 0, i);
+
+			fDiagramBarViews[i] = new DiagramBarView();
+			layoutBuilder.Add(fDiagramBarViews[i], 1, i);
+
+			fCountViews[i] = new BStringView("", "");
+			fCountViews[i]->SetFont(&smallFont);
+			fCountViews[i]->SetViewUIColor(ViewUIColor(), tint);
+			fCountViews[i]->SetAlignment(B_ALIGN_RIGHT);
+			layoutBuilder.Add(fCountViews[i], 2, i);
+		}
+
+		layoutBuilder.SetInsets(5);
+	}
+
+	void SetToSummary(const UserRatingSummaryRef summary)
+	{
+		if (!summary.IsSet()) {
+			Clear();
+		} else {
+			// note that the logic here inverts the ordering of the stars so that
+			// star 5 is at the top.
+
+			for (int32 i = 0; i < 5; i++) {
+				int32 count = summary->RatingCountByStar(5 - i);
+
+				BString label;
+				label.SetToFormat("%" B_PRId32, count);
+				fCountViews[i]->SetText(label);
+
+				int ratingCount = summary->RatingCount();
+
+				if (ratingCount > 0) {
+					fDiagramBarViews[i]->SetValue(
+						static_cast<float>(count) / static_cast<float>(ratingCount));
+				} else {
+					fDiagramBarViews[i]->SetValue(0.0f);
+				}
+			}
+		}
+	}
+
+	void Clear()
+	{
+		for (int32 i = 0; i < 5; i++) {
+			fCountViews[i]->SetText("");
+			fDiagramBarViews[i]->SetValue(0.0f);
+		}
+	}
+
+private:
+	BStringView*	fLabelViews[5];
+	DiagramBarView*	fDiagramBarViews[5];
+	BStringView*	fCountViews[5];
+};
+
+
+/*!	This view renders the ratings information for the package. It will appear
+	when the user chooses the "ratings" tab.
+*/
+class UserRatingsView : public BGroupView {
+public:
+	UserRatingsView()
+		:
+		BGroupView("package ratings view", B_HORIZONTAL)
+	{
+		fPackageName = "";
+		fAmPopulating = false;
+
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		fRatingSummaryView = new RatingSummaryView();
+
+		ScrollableGroupView* ratingsContainerView = new ScrollableGroupView();
+		ratingsContainerView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+		fRatingContainerLayout = ratingsContainerView->GroupLayout();
+
+		BScrollView* scrollView
+			= new RatingsScrollView("ratings scroll view", ratingsContainerView);
+		scrollView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
+
+		fNoRatingsView = new NotAvailableStringView(
+		"no ratings",B_TRANSLATE("No user ratings available."));
+		fNoRatingsView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		// This allows for switching between the "no ratings" and the
+		// list of ratings views if there are any.
+		fRatingContainerCardView = new BCardView();
+		fRatingContainerCardView->AddChild(scrollView);
+		fRatingContainerCardView->AddChild(fNoRatingsView);
+
+		BLayoutBuilder::Group<>(this)
+			.AddGroup(B_VERTICAL)
+				.Add(fRatingSummaryView, 0.0f)
+				.AddGlue()
+				.SetInsets(0.0f, B_USE_DEFAULT_SPACING, 0.0f, 0.0f)
+			.End()
+			.AddStrut(64.0)
+			.Add(fRatingContainerCardView, 1.0f)
+			.SetInsets(B_USE_DEFAULT_SPACING, -1.0f, -1.0f, -1.0f);
+	}
+
+	virtual ~UserRatingsView()
+	{
+		Clear();
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		ClearRatings();
+
+		PackageUserRatingInfoRef userRatingInfo = package->UserRatingInfo();
+		UserRatingSummaryRef userRatingSummary;
+
+		if (userRatingInfo.IsSet())
+			userRatingSummary = userRatingInfo->Summary();
+
+		fRatingSummaryView->SetToSummary(userRatingSummary);
+
+		int count = 0;
+
+		if (userRatingInfo.IsSet())
+			count = userRatingInfo->CountUserRatings();
+
+		BString packageName;
+		if (package.IsSet())
+			packageName = package->Name();
+		fAmPopulating = fAmPopulating && (packageName == fPackageName) && count == 0;
+
+		if (count == 0) {
+			_SetNotAvailable();
+		} else {
+			for (int i = count - 1; i >= 0; i--) {
+				UserRatingRef rating = userRatingInfo->UserRatingAtIndex(i);
+					// was previously filtering comments just for the current
+					// user's language, but as there are not so many comments at
+					// the moment, just show all of them for now.
+				RatingItemView* view = new RatingItemView(rating);
+				fRatingContainerLayout->AddView(0, view);
+			}
+			fRatingContainerCardView->CardLayout()->SetVisibleItem(CARD_AVAILABLE);
+		}
+
+		InvalidateLayout();
+
+		fPackageName = packageName;
+	}
+
+	void Clear()
+	{
+		fAmPopulating = false;
+		_SetNotAvailable();
+	}
+
+	void ClearRatings()
+	{
+		for (int32 i = fRatingContainerLayout->CountItems() - 1;
+			BLayoutItem* item = fRatingContainerLayout->ItemAt(i); i--) {
+			BView* view = dynamic_cast<RatingItemView*>(item->View());
+			if (view != NULL) {
+				view->RemoveSelf();
+				delete view;
+			}
+		}
+	}
+
+	void _SetNotAvailable() {
+		fNoRatingsView->SetText(_NotAvailableText());
+		fRatingContainerCardView->CardLayout()->SetVisibleItem(CARD_NOT_AVAILABLE);
+		fRatingSummaryView->Clear();
+		ClearRatings();
+	}
+
+	// TODO; need some way to signal failure.
+	void SetAmPopulating() {
+		fAmPopulating = true;
+		_SetNotAvailable();
+	}
+
+	const char* _NotAvailableText() {
+		if (fAmPopulating)
+			return B_TRANSLATE("User ratings loading" B_UTF8_ELLIPSIS);
+		return B_TRANSLATE("No user ratings available.");
+	}
+
+private:
+	BString fPackageName;
+	bool fAmPopulating;
+	NotAvailableStringView* fNoRatingsView;
+	BGroupLayout* fRatingContainerLayout;
+	RatingSummaryView* fRatingSummaryView;
+	BCardView* fRatingContainerCardView;
+};
+
+
+// #pragma mark - ContentsView
+
+
+class ContentsView : public BGroupView {
+public:
+	ContentsView()
+		:
+		BGroupView("package contents view", B_HORIZONTAL)
+	{
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		fPackageContents = new PackageContentsView("contents_list");
+
+		fNotAvailableView = new NotAvailableStringView("no contents",
+		B_TRANSLATE("No contents available."));
+
+		fCardView = new BCardView();
+		fCardView->AddChild(fPackageContents);
+		fCardView->AddChild(fNotAvailableView);
+
+		AddChild(fCardView);
+	}
+
+	virtual ~ContentsView()
+	{
+	}
+
+	virtual void Draw(BRect updateRect)
+	{
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		// if the package is not installed and is not a local file on disk then
+		// there is no point in attempting to populate data for it.
+
+		if (PackageUtils::IsActivatedOrLocalFile(package)) {
+			fPackageContents->SetPackage(package);
+			fCardView->CardLayout()->SetVisibleItem(CARD_AVAILABLE);
+		} else {
+			Clear();
+		}
+	}
+
+	void Clear()
+	{
+		fPackageContents->Clear();
+		fCardView->CardLayout()->SetVisibleItem(CARD_NOT_AVAILABLE);
+	}
+
+private:
+	BCardView* fCardView;
+	NotAvailableStringView* fNotAvailableView;
+	PackageContentsView* fPackageContents;
+};
+
+
+// #pragma mark - ChangelogView
+
+
+/*!	This view appears to show the Changelog when the user chooses the
+	changelog tab.
+*/
+class ChangelogView : public BGroupView {
+public:
+	ChangelogView()
+		:
+		BGroupView("package changelog view", B_HORIZONTAL)
+	{
+		fAmPopulating = false;
+		fPackageName = "";
+
+		SetViewUIColor(B_PANEL_BACKGROUND_COLOR, kContentTint);
+
+		fTextView = new MarkupTextView("changelog view");
+		fTextView->SetLowUIColor(ViewUIColor());
+		fTextView->SetInsets(be_plain_font->Size());
+		fTextScrollView = new GeneralContentScrollView("changelog scroll view", fTextView);
+
+		fNotAvailableView = new NotAvailableStringView("no changelog", _NotAvailableText());
+
+		fCardView = new BCardView();
+		fCardView->AddChild(fTextScrollView);
+		fCardView->AddChild(fNotAvailableView);
+
+		BLayoutBuilder::Group<>(this)
+			.Add(BSpaceLayoutItem::CreateHorizontalStrut(32.0f))
+			.Add(fCardView, 1.0f)
+			.SetInsets(B_USE_DEFAULT_SPACING, -1.0f, -1.0f, -1.0f);
+
+		Clear();
+	}
+
+	virtual ~ChangelogView()
+	{
+	}
+
+	virtual void Draw(BRect updateRect)
+	{
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		if (package.IsSet())
+			HDDEBUG("setting package on changelog view [%s]", package->Name().String());
+		else
+			HDDEBUG("setting package on changelog view to empty package");
+
+		PackageLocalizedTextRef localizedText = package->LocalizedText();
+		BString changelog;
+
+		if (localizedText.IsSet()) {
+			if (localizedText->HasChangelog())
+				changelog = localizedText->Changelog();
+		}
+
+		BString packageName;
+		if (package.IsSet())
+			packageName = package->Name();
+		fAmPopulating = fAmPopulating && (packageName == fPackageName) && changelog.Length() == 0;
+
+		if (changelog.Length() > 0) {
+			fTextView->SetText(changelog);
+			fCardView->CardLayout()->SetVisibleItem(CARD_AVAILABLE);
+		} else {
+			_SetNotAvailable();
+		}
+
+		fPackageName = packageName;
+	}
+
+	// TODO; need some way to signal failure.
+	void SetAmPopulating() {
+		HDDEBUG("set am populating changelog view");
+		fAmPopulating = true;
+		_SetNotAvailable();
+	}
+
+	void Clear()
+	{
+		HDDEBUG("clearing changelog view");
+		fAmPopulating = false;
+		_SetNotAvailable();
+	}
+
+	void _SetNotAvailable() {
+		fNotAvailableView->SetText(_NotAvailableText());
+		fCardView->CardLayout()->SetVisibleItem(CARD_NOT_AVAILABLE);
+		fTextView->SetText("");
+	}
+
+	const char* _NotAvailableText() {
+		if (fAmPopulating)
+			return B_TRANSLATE("Changelog loading" B_UTF8_ELLIPSIS);
+		return B_TRANSLATE("No changelog available.");
+	}
+
+private:
+	BString fPackageName;
+	MarkupTextView* fTextView;
+	BCardView* fCardView;
+	NotAvailableStringView* fNotAvailableView;
+	BScrollView* fTextScrollView;
+	bool fAmPopulating;
+};
+
+
+// #pragma mark - PagesView
+
+
+class PagesView : public BTabView {
+public:
+	PagesView(Model* model)
+		:
+		BTabView("pages view", B_WIDTH_FROM_WIDEST),
+		fModel(model)
+	{
+		SetBorder(B_NO_BORDER);
+
+		fAboutView = new AboutView();
+		fUserRatingsView = new UserRatingsView();
+		fChangelogView = new ChangelogView();
+		fContentsView = new ContentsView();
+
+		AddTab(fAboutView);
+		AddTab(fUserRatingsView);
+		AddTab(fChangelogView);
+		AddTab(fContentsView);
+
+		TabAt(TAB_ABOUT)->SetLabel(B_TRANSLATE("About"));
+		TabAt(TAB_RATINGS)->SetLabel(B_TRANSLATE("Ratings"));
+		TabAt(TAB_CHANGELOG)->SetLabel(B_TRANSLATE("Changelog"));
+		TabAt(TAB_CONTENTS)->SetLabel(B_TRANSLATE("Contents"));
+
+		Select(TAB_ABOUT);
+	}
+
+	virtual ~PagesView()
+	{
+		Clear();
+	}
+
+	void SetScreenshotThumbnail(BitmapHolderRef bitmap)
+	{
+		fAboutView->SetScreenshotThumbnail(bitmap);
+	}
+
+	void PopulateDataForTab(int32 index)
+	{
+		switch (index) {
+			case TAB_ABOUT:
+				break;
+			case TAB_RATINGS:
+				_MaybePopulateUserRatings(fPackage);
+				break;
+			case TAB_CHANGELOG:
+				_MaybePopulateChangelog(fPackage);
+				break;
+			case TAB_CONTENTS:
+				break;
+			default:
+				HDERROR("unhandled tab index for data population");
+				break;
+		}
+	}
+
+	void SetPackage(const PackageInfoRef package)
+	{
+		fPackage = package;
+
+		bool enableUserRatingsTab = false;
+		bool enableChangelogTab = false;
+		bool enableContentsTab = false;
+
+		if (package.IsSet()) {
+			enableChangelogTab = _ShowChangelog(package);
+			enableContentsTab = PackageUtils::IsActivatedOrLocalFile(package);
+			enableUserRatingsTab = _ShowUserRatings(package);
+		}
+
+		TabAt(TAB_CHANGELOG)->SetEnabled(enableChangelogTab);
+		TabAt(TAB_CONTENTS)->SetEnabled(enableContentsTab);
+		TabAt(TAB_RATINGS)->SetEnabled(enableUserRatingsTab);
+
+		fAboutView->SetPackage(package);
+		fUserRatingsView->SetPackage(package);
+		fChangelogView->SetPackage(package);
+		fContentsView->SetPackage(package);
+
+		int32 currentTab = Selection();
+		int32 futureTab = currentTab;
+
+		switch (futureTab) {
+			case TAB_ABOUT:
+				break;
+			case TAB_RATINGS:
+				if (!enableUserRatingsTab)
+					futureTab = TAB_ABOUT;
+				break;
+			case TAB_CHANGELOG:
+				if (!enableChangelogTab)
+					futureTab = TAB_ABOUT;
+				break;
+			case TAB_CONTENTS:
+				if (!enableContentsTab)
+					futureTab = TAB_ABOUT;
+				break;
+			default:
+				HDERROR("unhandled tab index");
+				futureTab = TAB_ABOUT;
+				break;
+		}
+
+		if (currentTab != futureTab)
+			Select(futureTab);
+		else
+			PopulateDataForTab(currentTab);
+	}
+
+	/*!	This is overridden so that data can be loaded as the tab is selected
+		on-demand rather than load all the data anyway.
+	*/
+	virtual void Select(int32 index) {
+		BTabView::Select(index);
+		PopulateDataForTab(index);
+	}
+
+	void Clear()
+	{
+		fAboutView->Clear();
+		fUserRatingsView->Clear();
+		fChangelogView->Clear();
+		fContentsView->Clear();
+	}
+
+private:
+
+	bool _ShowUserRatings(const PackageInfoRef package)
+	{
+		if (!package.IsSet())
+    		return false;
+		return PackageUtils::IsPopulatedUserRatings(package)
+			|| (fModel->CanPopulatePackage(package) && ServerHelper::IsNetworkAvailable()
+				&& PackageUtils::HasUserRatings(package));
+	}
+
+	bool _ShowChangelog(const PackageInfoRef package) {
+		if (!package.IsSet())
+    		return false;
+		return PackageUtils::IsPopulatedChangelog(package)
+			|| (fModel->CanPopulatePackage(package) && ServerHelper::IsNetworkAvailable()
+				&& PackageUtils::HasChangelog(package));
+	}
+
+	/*!	Returns true if the changelog should be available.
+	*/
+	void _MaybePopulateChangelog(const PackageInfoRef package) {
+		if (!package.IsSet())
+			return;
+
+		if (PackageUtils::IsPopulatedChangelog(package))
+			return;
+
+		if (!fModel->CanPopulatePackage(package))
+			return;
+
+		if (!ServerHelper::IsNetworkAvailable()) {
+			HDINFO("will skip populating changelog for [%s] as no network is available",
+            	package->Name().String());
+			return;
+		}
+
+		if (!PackageUtils::HasChangelog(package))
+			return;
+
+		// This will case a background task to start which will fetch the changelog
+		// from the server and populate it into the package data stored in the model.
+		// The correct view will be updated when the data arrives to present.
+		PopulateChangelogPackageAction action(package->Name());
+		BMessage message = action.Message();
+		Window()->PostMessage(&message);
+
+		fChangelogView->SetAmPopulating();
+	}
+
+	void _MaybePopulateUserRatings(const PackageInfoRef package) {
+		if (!package.IsSet())
+			return;
+
+		if (PackageUtils::IsPopulatedUserRatings(package))
+			return;
+
+		if (!fModel->CanPopulatePackage(package))
+			return;
+
+		if (!ServerHelper::IsNetworkAvailable()) {
+			HDINFO("will skip populating user ratings for [%s] as no network is available",
+            	package->Name().String());
+			return;
+		}
+
+		if (!PackageUtils::HasUserRatings(package))
+			return;
+
+		// This will case a background task to start which will fetch the user ratings
+		// from the server and populate it into the package data stored in the model.
+		// The correct view will be updated when the data arrives to present.
+		PopulateUserRatingsPackageAction action(package->Name());
+		BMessage message = action.Message();
+		Window()->PostMessage(&message);
+
+		fUserRatingsView->SetAmPopulating();
+	}
+
+private:
+	Model*				fModel;
+	AboutView*			fAboutView;
+	UserRatingsView*	fUserRatingsView;
+	ChangelogView*		fChangelogView;
+	ContentsView* 		fContentsView;
+	PackageInfoRef		fPackage;
+};
+
+
+// #pragma mark - PackageInfoView
+
+
+PackageInfoView::PackageInfoView(Model* model)
+	:
+	BView("package info view", 0),
+	fModel(model)
+{
+	fCardLayout = new BCardLayout();
+	SetLayout(fCardLayout);
+
+	BGroupView* noPackageCard = new BGroupView("no package card", B_VERTICAL);
+	AddChild(noPackageCard);
+
+	BStringView* noPackageView
+		= new BStringView("no package view", B_TRANSLATE("Click a package to view information"));
+	noPackageView->SetHighUIColor(B_PANEL_TEXT_COLOR, B_LIGHTEN_1_TINT);
+	noPackageView->SetExplicitAlignment(
+		BAlignment(B_ALIGN_HORIZONTAL_CENTER, B_ALIGN_VERTICAL_CENTER));
+
+	BLayoutBuilder::Group<>(noPackageCard)
+		.Add(noPackageView)
+		.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
+
+	BGroupView* packageCard = new BGroupView("package card", B_VERTICAL);
+	AddChild(packageCard);
+
+	fCardLayout->SetVisibleItem((int32)0);
+
+	fTitleView = new TitleView(fModel);
+	fPackageActionView = new PackageActionView();
+	fPackageActionView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fPagesView = new PagesView(model);
+
+	BLayoutBuilder::Group<>(packageCard)
+		.AddGroup(B_HORIZONTAL, 0.0f)
+			.Add(fTitleView, 6.0f)
+			.Add(fPackageActionView, 1.0f)
+			.SetInsets(B_USE_DEFAULT_SPACING, 0.0f, B_USE_DEFAULT_SPACING, 0.0f)
+			.End()
+		.Add(fPagesView);
+
+	Clear();
+}
+
+
+PackageInfoView::~PackageInfoView()
+{
+}
+
+
+void
+PackageInfoView::AttachedToWindow()
+{
+}
+
+
+void
+PackageInfoView::SetPackage(const PackageInfoRef& packageRef)
+{
+	if (!packageRef.IsSet()) {
+		Clear();
+		return;
+	}
+
+	fTitleView->SetPackage(packageRef);
+	fPackageActionView->SetPackage(packageRef);
+	fPagesView->SetPackage(packageRef);
+
+	_SetPackageScreenshotThumb(packageRef);
+
+	fCardLayout->SetVisibleItem(1);
+
+	// Set the fPackage reference last, so we keep a reference to the
+	// previous package before switching all the views to the new package.
+	// Otherwise the PackageInfo instance may go away because we had the
+	// last reference. And some of the views, the PackageActionView for
+	// example, keeps references to stuff from the previous package and
+	// access it while switching to the new package.
+	fPackage = packageRef;
+}
+
+
+void
+PackageInfoView::_HandlePackageChanged(const PackageInfoChangeEvent& event)
+{
+	uint32 changes = event.Changes();
+
+	if (0 == changes)
+		return;
+
+	const PackageInfoRef package = event.Package();
+
+	if (!fPackage.IsSet() || !package.IsSet())
+		return;
+
+	if (fPackage->Name() == package->Name()) {
+
+		if ((changes & PKG_CHANGED_LOCALIZED_TEXT) != 0 || (changes & PKG_CHANGED_SCREENSHOTS) != 0
+			|| (changes & PKG_CHANGED_RATINGS) != 0 || (changes & PKG_CHANGED_LOCAL_INFO) != 0) {
+			fPagesView->SetPackage(package);
+		}
+
+		if ((changes & PKG_CHANGED_LOCALIZED_TEXT) != 0 || (changes & PKG_CHANGED_RATINGS) != 0)
+			fTitleView->SetPackage(package);
+
+		if ((changes & PKG_CHANGED_LOCAL_INFO) != 0)
+			fPackageActionView->SetPackage(package);
+
+		fPackage = package;
+	}
+}
+
+
+void
+PackageInfoView::HandlePackagesChanged(const std::vector<PackageInfoChangeEvent>& events)
+{
+	if (!fPackage.IsSet())
+		return;
+	std::vector<PackageInfoChangeEvent>::const_iterator it;
+	for (it = events.begin(); it != events.end(); it++) {
+		const PackageInfoChangeEvent packageInfoChangeEvent = *it;
+		_HandlePackageChanged(packageInfoChangeEvent);
+	}
+}
+
+
+/*! See if the screenshot is already cached; if it is then load it
+	immediately. If it is not then trigger a process to start it in
+	the background. A message will come through later once it is
+	cached and ready to load.
+*/
+void
+PackageInfoView::_SetPackageScreenshotThumb(const PackageInfoRef& package)
+{
+	ScreenshotCoordinate desiredCoordinate = _ScreenshotThumbCoordinate(package);
+	const char* packageNameCStr = package->Name().String();
+	bool hasCachedBitmap = false;
+
+	if (desiredCoordinate.IsValid()) {
+		bool present = false;
+
+		if (fModel->GetPackageScreenshotRepository()->HasCachedScreenshot(desiredCoordinate,
+				&present)
+			!= B_OK) {
+			HDERROR("unable to ascertain if screenshot is present for pkg [%s]", packageNameCStr);
+		} else if (present) {
+			HDDEBUG("screenshot is already cached for [%s] -- will load the cached data",
+				package->Name().String());
+			_HandleScreenshotCached(package, desiredCoordinate);
+			hasCachedBitmap = true;
+		} else if (!ServerHelper::IsNetworkAvailable()) {
+			HDINFO("screenshot won't be cached [%s] -- network unavailable", packageNameCStr);
+		} else {
+			HDDEBUG("screenshot is not cached [%s] -- will cache it", packageNameCStr);
+			CacheScreenshotPackageAction action(package->Name(), desiredCoordinate);
+			BMessage message = action.Message();
+			Window()->PostMessage(&message);
+		}
+	} else {
+		HDDEBUG("no screenshot for pkg [%s]", packageNameCStr);
+	}
+
+	if (!hasCachedBitmap)
+		fPagesView->SetScreenshotThumbnail(BitmapHolderRef());
+}
+
+
+/*static*/ const ScreenshotCoordinate
+PackageInfoView::_ScreenshotThumbCoordinate(const PackageInfoRef& package)
+{
+	if (!package.IsSet())
+		return ScreenshotCoordinate();
+
+	PackageScreenshotInfoRef screenshotInfo = package->ScreenshotInfo();
+
+	if (!screenshotInfo.IsSet() || screenshotInfo->Count() == 0)
+		return ScreenshotCoordinate();
+
+	ScreenshotInfoRef screenshot = screenshotInfo->ScreenshotAtIndex(0);
+
+	if (!screenshot.IsSet())
+		return ScreenshotCoordinate();
+
+	uint32 screenshotSizeScaled
+		= MAX(static_cast<uint32>(BControlLook::ComposeIconSize(kScreenshotSize).Width()),
+			MAX_IMAGE_SIZE);
+
+	return ScreenshotCoordinate(screenshot->Code(), screenshotSizeScaled + 1,
+		screenshotSizeScaled + 1);
+}
+
+
+void
+PackageInfoView::HandleIconsChanged()
+{
+	fTitleView->SetIcon(fPackage);
+}
+
+
+/*! This message will arrive when the data in the screenshot cache
+	contains a new screenshot. This logic can check to see if the
+	screenshot arriving is the one that is being waited for and
+	would then load the screenshot from the cache and display it.
+*/
+
+void
+PackageInfoView::HandleScreenshotCached(const ScreenshotCoordinate& coordinate)
+{
+	HDINFO("handle screenshot cached [%s] %" B_PRIu32 " x %" B_PRIu32, coordinate.Code().String(),
+		coordinate.Width(), coordinate.Height());
+	_HandleScreenshotCached(fPackage, coordinate);
+}
+
+
+void
+PackageInfoView::_HandleScreenshotCached(const PackageInfoRef& package,
+	const ScreenshotCoordinate& coordinate)
+{
+	ScreenshotCoordinate desiredCoordinate = _ScreenshotThumbCoordinate(package);
+
+	if (desiredCoordinate.IsValid() && desiredCoordinate == coordinate) {
+		HDDEBUG("screenshot [%s] has been cached and matched; will load",
+			coordinate.Code().String());
+		BitmapHolderRef bitmapHolderRef;
+		if (fModel->GetPackageScreenshotRepository()->CacheAndLoadScreenshot(coordinate,
+				bitmapHolderRef)
+			!= B_OK) {
+			HDERROR("unable to load the screenshot [%s]", coordinate.Code().String());
+		} else {
+			fPagesView->SetScreenshotThumbnail(bitmapHolderRef);
+		}
+	}
+}
+
+
+void
+PackageInfoView::Clear()
+{
+	fTitleView->Clear();
+	fPackageActionView->Clear();
+	fPagesView->Clear();
+
+	fCardLayout->SetVisibleItem((int32)0);
+
+	fPackage.Unset();
+}

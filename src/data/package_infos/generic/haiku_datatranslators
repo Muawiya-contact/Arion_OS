@@ -1,0 +1,56 @@
+name			haiku_datatranslators
+version			%HAIKU_VERSION%
+architecture	%HAIKU_PACKAGING_ARCH%
+summary			"Haiku data translators"
+description 	"Standard data translators and media format plugins"
+
+packager		"The Haiku build system"
+vendor			"Haiku Project"
+
+copyrights		"2001-2026 Haiku, Inc."
+licenses		MIT
+
+provides {
+	haiku_datatranslators=%HAIKU_VERSION%
+}
+
+requires {
+	haiku
+
+#ifdef HAIKU_REGULAR_BUILD
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_ffmpeg_ENABLED
+	lib:libavcodec >= 60
+	lib:libavfilter >= 9
+	lib:libavformat >= 60
+	lib:libavutil >= 58
+	lib:libswresample >= 4
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_libicns_ENABLED
+	lib:libicns
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_jasper_ENABLED
+	lib:libjasper
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_jpeg_ENABLED
+	lib:libjpeg
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_libpng_ENABLED
+	lib:libpng16
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_libavif_ENABLED
+	lib:libavif
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_tiff_ENABLED
+	lib:libtiff
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_libwebp_ENABLED
+	lib:libwebp
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_libraw_ENABLED
+	lib:libraw
+#endif
+#ifdef HAIKU_BUILD_FEATURE_%HAIKU_PACKAGING_ARCH%_gutenprint_ENABLED
+	lib:libgutenprint
+#endif
+#endif
+}

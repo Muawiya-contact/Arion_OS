@@ -1,0 +1,21 @@
+1	indonesian	x-vnd.Haiku-NetworkStatus	2510618206
+IPv6 address:	NetworkStatusView		Alamat IPv6
+Quit	NetworkStatusView		Keluar
+Unknown	NetworkStatusView		Takdiketahui
+Launching the network preflet failed.\n\nError: 	NetworkStatusView		Gagal meluncurkan preflet jaringan.\n\nkesalahan: 
+Install in Deskbar	NetworkStatus		Pasang di Deskbar
+Open network preferences…	NetworkStatusView		Buka preferensi jaringan...
+NetworkStatus	System name		StatusJaringan
+Broadcast:	NetworkStatusView		Broadcast:
+OK	NetworkStatusView		OKE
+No link	NetworkStatusView		Tak ada tautan
+Could not join wireless network:\n	NetworkStatusView		Tidak bisa gabung ke jaringan nirkabel:\n
+Network Status	NetworkStatusView		Status Jaringan
+Deskbar is not running, giving up.	NetworkStatus		Deskbar tidak berjalan, menyerah.
+Netmask:	NetworkStatusView		Netmask:
+No stateful configuration	NetworkStatusView		Takada konfigurasi tersimpan
+IPv4 address:	NetworkStatusView		Alamat IPv4
+%ifaceName information:\n	NetworkStatusView		%ifaceName informasi:\n
+Run in window	NetworkStatus		Jalankan di jendela
+<no wireless networks found>	NetworkStatusView		<tidak ditemukan jaringan nirkabel>
+Configuring	NetworkStatusView		Mengkonfigurasikan

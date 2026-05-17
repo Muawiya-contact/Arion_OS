@@ -1,0 +1,9 @@
+SubDir HAIKU_TOP src add-ons kernel bluetooth btCoreData ;
+
+UsePrivateKernelHeaders ;
+UsePrivateHeaders net bluetooth ;
+
+KernelAddon btCoreData :
+	ConnectionInterface.cpp
+	BTCoreData.cpp
+	;

@@ -1,0 +1,81 @@
+1	portuguese (brazil)	x-vnd.Haiku-StyledEdit	635998328
+Document statistics	Statistics		Estatísticas do documento
+Cut	Menus		Recortar
+Center	Menus		Centralizado
+Increase size	Menus		Aumentar tamanho
+Page setup…	Menus		Configurar página…
+Wrap-around search	FindandReplaceWindow		Localizar em torno de
+OK	Statistics		OK
+Find	FindandReplaceWindow		Localizar
+New	Menus		Novo
+Document	Menus		Documento
+Search backwards	FindandReplaceWindow		Pesquisar para trás
+Find again	Menus		Localizar novamente
+Read-only	StatusView		Somente leitura
+Save	Menus		Salvar
+Cancel	QuitAlert		Cancelar
+Copy	Menus		Copiar
+Reload	NodeMonitorAlerts		Atualizar
+line %d, column %d	StatusView		linha %d, coluna %d
+Words:	Statistics		Palavras:
+???	LoadAlert		???
+Recover	NodeMonitorAlerts		Recuperar
+OK	RevertToSavedAlert		OK
+Unlock file	StatusView		Desbloquear arquivo
+Italic	Menus		Itálico
+Can't undo	Menus		Impossível desfazer
+Replace…	Menus		Substituir…
+File	Menus		Arquivo
+Paste	Menus		Colar
+Bold	Menus		Negrito
+File \"%file%\" was modified by another application, reload it?	NodeMonitorAlerts		Arquivo \"%file\" foi modificado por outro aplicativo, recarregar?
+File \"%file%\" was removed by another application, recover it?	NodeMonitorAlerts		Arquivo \"%file%\" foi removido por outro aplicativo, recuperar?
+Lines:	Statistics		Linhas:
+Replace in all windows	FindandReplaceWindow		Substituir em todas as janelas
+Save	SaveAlert		Salvar
+Default	Open_and_SaveAsPanel		Padrões
+Cancel	RevertToSavedAlert		Cancelar
+Cancel	FindandReplaceWindow		Cancelar
+Statistics…	Menus		Estatísticas…
+Encoding	Open_and_SaveAsPanel		Codificação
+Replace all	FindandReplaceWindow		Substituir tudo
+Close	Menus		Fechar
+Left	Menus		Esquerda
+Default	Menus		Padrões
+OK	SaveAlert		OK
+Color	Menus		Cor
+StyledEdit	System name		StyledEdit
+Find:	FindandReplaceWindow		Localizar:
+Undo typing	QuitAlert		Desfazer digitação
+Don't save	SaveAlert		Não salvar
+Reload…	Menus		Atualizar…
+Print…	Menus		Imprimir…
+Quit	Menus		Sair
+Redo typing	QuitAlert		Refazer digitação
+Ignore	NodeMonitorAlerts		Ignorar
+Wrap lines	Menus		Quebrar linhas
+Text encoding	Menus		Codificação de texto
+Modified	StatusView		Modificado
+OK	LoadAlert		OK
+Save	QuitAlert		Salvar
+Case-sensitive	FindandReplaceWindow		Diferenciar maiúsculas/minúsculas
+Find selection	Menus		Localizar seleção
+Find…	Menus		Localizar…
+Cancel	SaveAlert		Cancelar
+Revert	RevertToSavedAlert		Reverter
+Size	Menus		Tamanho
+Decrease size	Menus		Diminuir o tamanho
+Autodetect	Menus		Auto-detectar
+Replace next	Menus		Substituir próximo
+OK	QuitAlert		OK
+Edit	Menus		Editar
+Replace with:	FindandReplaceWindow		Substituir com:
+Open…	Menus		Abrir...
+Save as…	Menus		Salvar como...
+Replace	FindandReplaceWindow		Substituir
+Characters:	Statistics		Caracteres:
+Don't save	QuitAlert		Não salvar
+Align	Menus		Alinhar
+Font	Menus		Fonte
+Select all	Menus		Selecionar tudo
+Right	Menus		Direito

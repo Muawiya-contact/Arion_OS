@@ -1,0 +1,16 @@
+SubDir HAIKU_TOP src bin debug time_stats ;
+
+UsePrivateHeaders libroot ;
+UsePrivateHeaders shared ;
+UsePrivateSystemHeaders ;
+
+SubDirHdrs [ FDirName $(SUBDIR) $(DOTDOT) ] ;
+
+Application time_stats
+	:
+	scheduling_analysis.cpp
+	time_stats.cpp
+	timing_analysis.cpp
+	:
+	[ TargetLibstdc++ ]
+;

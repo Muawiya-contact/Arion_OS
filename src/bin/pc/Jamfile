@@ -1,0 +1,6 @@
+SubDir HAIKU_TOP src bin pc ;
+
+Application pc :
+	pc.c
+;
+

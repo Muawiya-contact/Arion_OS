@@ -1,0 +1,78 @@
+SubDir HAIKU_TOP src build libsolv ;
+
+local libsolvSourceBaseDirectory
+	= [ FDirName $(HAIKU_TOP) src libs libsolv ] ;
+local libsolvSourceDirectory
+	= [ FDirName $(libsolvSourceBaseDirectory) solv ] ;
+local libsolvextSourceDirectory
+	= [ FDirName $(libsolvSourceBaseDirectory) ext ] ;
+
+DEFINES =
+	LIBSOLV_INTERNAL
+	HAIKU
+	_GNU_SOURCE
+	;
+
+# One of the following must be defined:
+# * HAVE_FUNOPEN / HAVE_FOPENCOOKIE
+#
+# One of the following can be defined:
+# * HAVE_QSORT_R / HAVE___QSORT ?
+switch $(HOST_PLATFORM) {
+	case linux :
+		DEFINES += HAVE_STRCHRNUL HAVE_QSORT_R HAVE_FOPENCOOKIE ;
+	case haiku_host :
+		DEFINES += HAVE_STRCHRNUL HAVE_FOPENCOOKIE ;
+	case freebsd :
+		DEFINES += HAVE_STRCHRNUL HAVE_FUNOPEN ;
+	case netbsd :
+		DEFINES += HAVE_STRCHRNUL HAVE_FUNOPEN ;
+	case darwin :
+		DEFINES += HAVE_STRCHRNUL HAVE_FUNOPEN HAVE_QSORT_R ;
+	case * :
+		Exit $(SUBDIR)/Jamfile: "Please add a case for your platform"
+			"($(HOST_PLATFORM))!" ;
+}
+
+SubDirCcFlags -Wno-sign-compare -Wno-missing-prototypes ;
+
+SubDirCcFlags $(HOST_PIC_CCFLAGS) ;
+SubDirC++Flags $(HOST_PIC_C++FLAGS) ;
+
+
+# libsolv
+
+UseHeaders $(libsolvSourceDirectory) ;
+
+local libsolvSources = [ FGristFiles
+	bitmap.c poolarch.c poolvendor.c poolid.c strpool.c dirpool.c
+	solver.c solverdebug.c repo_solv.c repo_write.c evr.c pool.c
+	queue.c repo.c repodata.c repopage.c util.c policy.c solvable.c
+	transaction.c rules.c problems.c
+	chksum.c md5.c sha1.c sha2.c solvversion.c selection.c
+	] ;
+
+LOCATE on $(libsolvSources) = $(libsolvSourceDirectory) ;
+
+BuildPlatformStaticLibrary libsolv_build.a
+	:
+	$(libsolvSources)
+	;
+
+# libsolvext
+
+UseHeaders $(libsolvextSourceDirectory) ;
+
+local libsolvextSources = [ FGristFiles
+	solv_xfopen.c testcase.c
+	repo_haiku.cpp
+	] ;
+
+LOCATE on $(libsolvextSources) = $(libsolvextSourceDirectory) ;
+
+USES_BE_API on libsolvext_build.a = true ;
+
+BuildPlatformStaticLibrary libsolvext_build.a
+	:
+	$(libsolvextSources)
+	;

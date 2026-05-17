@@ -1,0 +1,15 @@
+SubDir HAIKU_TOP src bin locale ;
+
+SEARCH_SOURCE += [ FDirName $(HAIKU_TOP) src kits tracker ] ;
+
+UsePublicHeaders locale ;
+UsePrivateHeaders locale shared ;
+
+Application collectcatkeys : collectcatkeys.cpp RegExp.cpp 
+	: be localestub [ TargetLibsupc++ ] ;
+
+Application linkcatkeys : linkcatkeys.cpp : be  [ TargetLibstdc++ ] ;
+
+Application dumpcatalog : dumpcatalog.cpp : be  [ TargetLibsupc++ ] ;
+
+Application locale : locale.cpp : be [ TargetLibsupc++ ] ;

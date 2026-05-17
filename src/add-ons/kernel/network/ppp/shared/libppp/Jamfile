@@ -1,0 +1,27 @@
+SubDir HAIKU_TOP src add-ons kernel network ppp shared libppp ;
+
+UsePrivateKernelHeaders ;
+UsePrivateHeaders net ;
+UseHeaders [ FDirName $(HAIKU_TOP) src add-ons kernel network ppp shared libppp
+	headers ] : true ;
+UseHeaders [ FDirName $(HAIKU_TOP) src add-ons kernel network ppp shared
+	libkernelppp headers ] : true ;
+
+StaticLibrary libppp.a :
+	driver_settings.cpp
+	settings_tools.cpp
+	KPPPUtils.cpp
+
+	PPPInterface.cpp
+	PPPInterfaceListener.cpp
+	PPPManager.cpp
+	MessageDriverSettingsUtils.cpp
+	: libnetwork.so libbnetapi.so
+;
+
+SEARCH on [ FGristFiles driver_settings.cpp ] = [ FDirName $(HAIKU_TOP) src
+	system libroot os ] ;
+SEARCH on [ FGristFiles settings_tools.cpp ] = [ FDirName $(HAIKU_TOP) src
+	add-ons kernel network ppp shared libkernelppp ] ;
+SEARCH on [ FGristFiles KPPPUtils.cpp ] = [ FDirName $(HAIKU_TOP) src add-ons
+	kernel network ppp shared libkernelppp ] ;

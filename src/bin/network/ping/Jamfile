@@ -1,0 +1,23 @@
+SubDir HAIKU_TOP src bin network ping ;
+
+SubDirSysHdrs $(HAIKU_TOP) headers compatibility bsd ;
+
+DEFINES += INET INET6 ;
+
+Application ping :
+	main.c
+	ping.c
+	ping6.c
+	utils.c
+	: $(TARGET_NETWORK_LIBS) $(TARGET_SELECT_UNAME_ETC_LIB) libbsd.so ;
+
+# Installation -- in the test directory for the time being
+HaikuInstall install-networking
+	: [ FDirName $(HAIKU_TEST_DIR) kits net ]
+	: ping ;
+
+HaikuInstall install-userland-networking
+	: [ FDirName $(HAIKU_TEST_DIR) kits net userland ]
+	: ping
+	: installed-userland-networking
+;

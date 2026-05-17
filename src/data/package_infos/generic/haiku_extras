@@ -1,0 +1,25 @@
+name			haiku_extras
+version			%HAIKU_VERSION%
+architecture	%HAIKU_PACKAGING_ARCH%
+summary			"Haiku extras"
+description 	"A delightfully hand-curated set of oddities and tidbits to enhance your usage of Haiku.
+
+* For an alternative look, set FlatControlLook and FlatDecorator in the Appearance preferences.
+* Watch 'classic' TV with the 'TV' app. Needs a supported DVB-T (MPEG2) capture card.
+* 'acpi_call' is a debugging tool.
+* Partitioning systems for Sun, pre-GPT Apple, and Amiga RDB."
+packager		"The Haiku build system"
+vendor			"Haiku Project"
+
+copyrights		"2007-2026 Haiku, Inc."
+licenses		MIT
+
+provides {
+	haiku_extras=%HAIKU_VERSION%
+	app:tv=%HAIKU_VERSION%
+	cmd:acpi_call=%HAIKU_VERSION%
+}
+
+requires {
+	haiku
+}

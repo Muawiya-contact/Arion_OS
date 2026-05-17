@@ -1,0 +1,51 @@
+/*
+ * Copyright 2021, Andrew Lindesay <apl@lindesay.co.nz>.
+ * All rights reserved. Distributed under the terms of the MIT License.
+ */
+
+
+#include "ShuttingDownWindow.h"
+
+#include <Catalog.h>
+#include <LayoutBuilder.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ShuttingDownWindow"
+
+#define WINDOW_FRAME BRect(0, 0, 240, 120)
+
+
+ShuttingDownWindow::ShuttingDownWindow(BWindow* parent)
+	:
+	BWindow(WINDOW_FRAME, B_TRANSLATE("Cleaning up" B_UTF8_ELLIPSIS),
+		B_FLOATING_WINDOW_LOOK, B_MODAL_SUBSET_WINDOW_FEEL,
+		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_NOT_CLOSABLE )
+{
+	AddToSubset(parent);
+
+	BTextView* textView = new BTextView("shutting down message");
+	textView->AdoptSystemColors();
+	textView->MakeEditable(false);
+	textView->MakeSelectable(false);
+	BString text(B_TRANSLATE("%appname% is stopping or completing "
+		"running operations before quitting."));
+	text.ReplaceFirst("%appname%", B_TRANSLATE_SYSTEM_NAME("HaikuDepot"));
+	textView->SetText(text);
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+			.SetInsets(B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING,
+				B_USE_WINDOW_SPACING, B_USE_DEFAULT_SPACING)
+			.Add(textView)
+		.End();
+
+	CenterOnScreen();
+	ResizeToPreferred();
+}
+
+
+ShuttingDownWindow::~ShuttingDownWindow()
+{
+}
+

@@ -1,0 +1,15 @@
+SubDir HAIKU_TOP src bin package_repo ;
+
+UsePrivateHeaders shared ;
+UseHeaders [ FDirName $(HAIKU_TOP) src bin package ] ;
+
+Application package_repo :
+	command_create.cpp
+	command_list.cpp
+	command_update.cpp
+	package_repo.cpp
+	:
+	package be
+	[ TargetLibsupc++ ]
+	[ TargetLibstdc++ ]
+;

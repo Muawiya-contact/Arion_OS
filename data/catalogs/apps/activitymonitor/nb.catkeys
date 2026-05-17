@@ -1,0 +1,48 @@
+1	bokmål, norwegian; norwegian bokmål	x-vnd.Haiku-ActivityMonitor	2467534740
+Teams	DataSource		Lag
+Block cache memory	DataSource		Blokkhurtigbufferminne
+Media nodes	DataSource		Medianoder
+Network send	DataSource		Sendt nettverk
+Threads	DataSource		Tråder
+Remove graph	ActivityView		Fjern graf
+ActivityMonitor	System name		Aktivitetsoversikt
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Oppdateringsintervall:
+Settings…	ActivityWindow		Innstillinger…
+Block cache	DataSource		Blokk-hurtigbuffer
+Memory	DataSource		Minne
+CPU speed	DataSource		CPU-hastighet
+CPU usage	DataSource		CPU-bruk
+Raw clipboard	DataSource		Data på utklippstavle
+Settings	ActivityWindow		Innstillinger
+Used memory	DataSource		Brukt minne
+Cached memory	DataSource		Hurtigbufferminne
+Ports	DataSource		Porter
+Apps	DataSource		Programmer
+Page faults	DataSource		Sidefeil
+Add graph	ActivityWindow		Legg til graf
+Swap	DataSource		Utveksling
+%s faults/s	DataSource		%s feil/s
+Semaphores	DataSource		Semaforer
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Tekst på utklippstavle
+Running applications	DataSource		Kjørende programmer
+Cache	DataSource		Hurtigbuffer
+CPU usage (combined)	DataSource		CPU-bruk (sammenlagt)
+Receiving	DataSource		Mottar
+Swap space	DataSource		Veksleminne
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Avslutt
+Show legend	ActivityView		Vis forklaring
+File	ActivityWindow		Fil
+CPU %d speed	DataSource		CPU %d hastighet
+CPU %d usage	DataSource		CPU %d benyttelse
+Additional items	ActivityView		Tilleggsobjekter
+Sending	DataSource		Sender
+Always on top	ActivityWindow		Alltid øverst
+Sems	DataSource		Semaforer
+P-faults	DataSource		P-feil
+%lld sec.	SettingsWindow		%lld sek.
+Network receive	DataSource		Mottatt nettverk

@@ -1,0 +1,17 @@
+# Sample settings file for the FAT plugin
+#
+# This file should be moved to the directory
+# /boot/home/config/settings/kernel/drivers/
+#
+# OEM code page:
+# Code page to use for DOS short filenames in the FAT userlandfs module.
+# Back up your data before changing this setting.
+# Has no effect on the regular FAT driver or FAT shell, which always use CP850.
+# If not set, defaults to CP1252.
+OEM_code_page CP1252
+
+# sync mode:
+# 0 = (default) no sync after each operation
+# 1 = sync after each operation on removable media only
+# 2 = sync after each operation always
+op_sync_mode 0

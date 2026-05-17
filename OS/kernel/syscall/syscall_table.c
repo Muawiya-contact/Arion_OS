@@ -1,1 +1,0 @@
-// Syscall table (scaffold)

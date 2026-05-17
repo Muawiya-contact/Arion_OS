@@ -1,0 +1,83 @@
+1	italian	x-vnd.Haiku-StyledEdit	3212551798
+Document statistics	Statistics		Statistiche sul documento
+Cut	Menus		Taglia
+Center	Menus		Centra
+Increase size	Menus		Aumenta dimensioni
+Page setup…	Menus		Imposta pagina…
+Wrap-around search	FindandReplaceWindow		Cerca in tutto il documento
+OK	Statistics		OK
+Find	FindandReplaceWindow		Cerca
+New	Menus		Nuovo
+Document	Menus		Documento
+Search backwards	FindandReplaceWindow		Cerca all'indietro
+Find again	Menus		Cerca ancora
+Read-only	StatusView		Sola lettura
+Save	Menus		Salva
+Cancel	QuitAlert		Annulla
+Copy	Menus		Copia
+Reload	NodeMonitorAlerts		Carica nuovamente
+line %d, column %d	StatusView		riga: %d colonna: %d
+Words:	Statistics		Parole:
+???	LoadAlert		???
+Recover	NodeMonitorAlerts		Ripristina
+OK	RevertToSavedAlert		OK
+Unlock file	StatusView		Sblocca file
+Italic	Menus		Corsivo
+Can't undo	Menus		Impossibile annullare
+Replace…	Menus		Sostituisci…
+File	Menus		File
+Paste	Menus		Incolla
+Bold	Menus		Grassetto
+File \"%file%\" was modified by another application, reload it?	NodeMonitorAlerts		Il file \"%file%\" è stato modificato da un'altra applicazione, caricarlo nuovamente?
+File \"%file%\" was removed by another application, recover it?	NodeMonitorAlerts		Il file \"%file%\" è stato rimosso da un'altra applicazione. Recuperarlo?
+Lines:	Statistics		Righe:
+Strikeout	Menus		Barrato
+Replace in all windows	FindandReplaceWindow		Sostituisci in tutte le finestre
+Save	SaveAlert		Salva
+Default	Open_and_SaveAsPanel		Predefinito
+Cancel	RevertToSavedAlert		Annulla
+Cancel	FindandReplaceWindow		Annulla
+Statistics…	Menus		Statistiche...
+Encoding	Open_and_SaveAsPanel		Codifica
+Replace all	FindandReplaceWindow		Sostituisci tutto
+Close	Menus		Chiudi
+Left	Menus		Sinistra
+Default	Menus		Predefinito
+OK	SaveAlert		OK
+Color	Menus		Colore
+StyledEdit	System name		StyledEdit
+Underline	Menus		Sottolineatura
+Find:	FindandReplaceWindow		Cerca:
+Undo typing	QuitAlert		Annulla digitazione
+Don't save	SaveAlert		Non salvare
+Reload…	Menus		Carica nuovamente…
+Print…	Menus		Stampa…
+Quit	Menus		Esci
+Redo typing	QuitAlert		Ripeti digitazione
+Ignore	NodeMonitorAlerts		Ignora
+Wrap lines	Menus		A capo automatico
+Text encoding	Menus		Codifica testo
+Modified	StatusView		Modificato
+OK	LoadAlert		OK
+Save	QuitAlert		Salva
+Case-sensitive	FindandReplaceWindow		Distingue maiuscole e minuscole
+Find selection	Menus		Cerca nel testo selezionato
+Find…	Menus		Trova…
+Cancel	SaveAlert		Annulla
+Revert	RevertToSavedAlert		Ripristina
+Size	Menus		Dimensione
+Decrease size	Menus		Diminuisci dimensioni
+Autodetect	Menus		Rilevamento automatico
+Replace next	Menus		Sostituisci successivo
+OK	QuitAlert		OK
+Edit	Menus		Modifica
+Replace with:	FindandReplaceWindow		Sostituisci con:
+Open…	Menus		Apri…
+Save as…	Menus		Salva con nome…
+Replace	FindandReplaceWindow		Sostituisci
+Characters:	Statistics		Caratteri:
+Don't save	QuitAlert		Non salvare
+Align	Menus		Allinea
+Font	Menus		Carattere
+Select all	Menus		Seleziona tutto
+Right	Menus		Destra

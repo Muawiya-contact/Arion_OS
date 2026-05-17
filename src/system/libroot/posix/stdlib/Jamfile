@@ -1,0 +1,38 @@
+SubDir HAIKU_TOP src system libroot posix stdlib ;
+
+UsePrivateHeaders drivers libroot runtime_loader shared ;
+
+SubDirCcFlags -D_DEFAULT_SOURCE ;
+
+local architectureObject ;
+for architectureObject in [ MultiArchSubDirSetup ] {
+	on $(architectureObject) {
+		local architecture = $(TARGET_PACKAGING_ARCH) ;
+
+		UsePrivateSystemHeaders ;
+		ObjectSysHdrs strfmon.c :
+			[ FDirName $(HAIKU_TOP) headers compatibility bsd ] ;
+
+		MergeObject <$(architecture)>posix_stdlib.o :
+			abs.c
+			atfork.c
+			atof.c
+			atoi.c
+			bsearch.c
+			div.c
+			env.cpp
+			exit.cpp
+			heapsort.c
+			merge.c
+			mktemp.c
+			pty.cpp
+			qsort.c
+			qsort_r.c
+			radixsort.c
+			random.c
+			reallocarray.cpp
+			realpath.cpp
+			strfmon.c
+			;
+	}
+}

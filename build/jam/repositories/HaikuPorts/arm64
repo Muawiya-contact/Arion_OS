@@ -1,0 +1,71 @@
+RemotePackageRepository HaikuPorts
+	: arm64
+	: https://eu.hpkg.haiku-os.org/haikuports/master/build-packages
+	:
+	# architecture "any" packages
+	ca_root_certificates-2025_12_02-1
+	haikuporter-0_bootstrap-1
+	noto-20170202_bootstrap-7
+	:
+	# repository architecture packages
+	# primary architecture (arm64)
+	bash-5.3_bootstrap-1
+	binutils-2.41_2026_03_10_bootstrap-1
+	bison-3.8.2_bootstrap-1
+	coreutils-9.9_bootstrap-1
+	curl-8.19.0_bootstrap-1
+	curl_devel-8.19.0_bootstrap-1
+	expat-2.5.0_bootstrap-1
+	expat_devel-2.5.0_bootstrap-1
+	findutils-4.9.0_bootstrap-1
+	flex-2.5.35_bootstrap-1
+	freetype-2.6.3_bootstrap-1
+	freetype_devel-2.6.3_bootstrap-1
+	gawk-3.1.8_bootstrap-2
+	gcc-13.3.0_2026_03_29_bootstrap-1
+	gcc_syslibs-13.3.0_2026_03_29_bootstrap-1
+	gcc_syslibs_devel-13.3.0_2026_03_29_bootstrap-1
+	grep-3.11_bootstrap-1
+	icu74-74.1_bootstrap-1
+	icu74_devel-74.1_bootstrap-1
+	icu74_tools-74.1_bootstrap-1
+	less-668_bootstrap-1
+	libffi-3.4.6_bootstrap-1
+	libffi_devel-3.4.6_bootstrap-1
+	m4-1.4.19_bootstrap-1
+	make-4.4.1_bootstrap-1
+	ncurses6-6.6_bootstrap-1
+	ncurses6_devel-6.6_bootstrap-1
+	python3.10-3.10.19_bootstrap-1
+	sed-4.9_bootstrap-1
+	texinfo-7.2_bootstrap-1
+	zlib-1.2.13_bootstrap-1
+	zlib_devel-1.2.13_bootstrap-1
+	:
+	# source packages
+	bash
+	binutils
+	bison
+	coreutils
+	curl
+	expat
+	findutils
+	flex
+	freetype
+	gawk
+	gcc
+	grep
+	icu74
+	less
+	libffi
+	libiconv
+	m4
+	make
+	ncurses6
+	python3.10
+	sed
+	texinfo
+	zlib
+	:
+	# debuginfo packages
+	;

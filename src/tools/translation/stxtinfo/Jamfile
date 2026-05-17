@@ -1,0 +1,4 @@
+SubDir HAIKU_TOP src tools translation stxtinfo ;
+
+Application stxtinfo : stxtinfo.cpp : be [ TargetLibsupc++ ] ;
+

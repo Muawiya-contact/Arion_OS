@@ -1,0 +1,51 @@
+1	friulian	x-vnd.Haiku-ActivityMonitor	1159274874
+Teams	DataSource		Teams
+Temp	DataSource		Temp
+Block cache memory	DataSource		Memorie cache a blocs
+Media nodes	DataSource		Grops multimediâi
+Network send	DataSource		Rêt (inviament)
+Threads	DataSource		Thread
+Remove graph	ActivityView		Gjave grafic
+ActivityMonitor	System name		VisôrAtivitâts
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Interval di inzornament:
+Settings…	ActivityWindow		Impostazions…
+Block cache	DataSource		Bloche cache
+Memory	DataSource		Memorie
+No thermal sensor	SystemInfoHandler		Nissun sensôr di temperadure
+CPU speed	DataSource		Velocitât de CPU
+CPU usage	DataSource		CPU doprade
+Raw clipboard	DataSource		Notis gresis
+Settings	ActivityWindow		Impostazions
+Used memory	DataSource		Memorie doprade
+Cached memory	DataSource		Memorie cache
+Ports	DataSource		Puartis
+Apps	DataSource		Aplicazions
+Page faults	DataSource		Erôrs di pagjine
+Add graph	ActivityWindow		Zonte grafic
+Swap	DataSource		Mem. di scambi
+%s faults/s	DataSource		%s erôrs/s
+Temperature	DataSource		Temperadure
+Semaphores	DataSource		Semafars
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Notis di test
+Running applications	DataSource		Aplicazions in esecuzion
+Cache	DataSource		Cache
+CPU usage (combined)	DataSource		CPU doprade (cumbinât)
+Receiving	DataSource		Ricezion
+Swap space	DataSource		Spazi memorie di scambi
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Jes
+Show legend	ActivityView		Mostre liende
+File	ActivityWindow		File
+CPU %d speed	DataSource		Velocitât CPU %d
+CPU %d usage	DataSource		CPU %d doprade
+Additional items	ActivityView		Elements adizionâi
+Sending	DataSource		Inviament
+Always on top	ActivityWindow		Simpri denant
+Sems	DataSource		Sems
+P-faults	DataSource		Erôrs-pagjine
+%lld sec.	SettingsWindow		%lld sec.
+Network receive	DataSource		Rêt (ricezion)

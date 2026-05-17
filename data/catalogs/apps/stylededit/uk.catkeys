@@ -1,0 +1,83 @@
+1	ukrainian	x-vnd.Haiku-StyledEdit	3212551798
+Document statistics	Statistics		Статистика документу
+Cut	Menus		Вирізати
+Center	Menus		Центр
+Increase size	Menus		Збільшити розмір
+Page setup…	Menus		Налаштування сторінки…
+Wrap-around search	FindandReplaceWindow		Шукати по всьому документу
+OK	Statistics		ОК
+Find	FindandReplaceWindow		Знайти
+New	Menus		Новий
+Document	Menus		Документ
+Search backwards	FindandReplaceWindow		Шукати від верху до низу
+Find again	Menus		Знайти далі
+Read-only	StatusView		Тільки читання
+Save	Menus		Зберегти
+Cancel	QuitAlert		Скасувати
+Copy	Menus		Копіювати
+Reload	NodeMonitorAlerts		Перезавантажити
+line %d, column %d	StatusView		рядок %d, колонка %d
+Words:	Statistics		Слів:
+???	LoadAlert		???
+Recover	NodeMonitorAlerts		Відновити
+OK	RevertToSavedAlert		ОК
+Unlock file	StatusView		Розблокувати
+Italic	Menus		Курсив
+Can't undo	Menus		Неможливо відмінити
+Replace…	Menus		Замінити…
+File	Menus		Файл
+Paste	Menus		Вставити
+Bold	Menus		Жирний
+File \"%file%\" was modified by another application, reload it?	NodeMonitorAlerts		Файл \"%file%\" був змінений іншою програмою, перезавантажити його?
+File \"%file%\" was removed by another application, recover it?	NodeMonitorAlerts		Файл \"%file%\" був вилучений іншою програмою, відновити його?
+Lines:	Statistics		Рядків:
+Strikeout	Menus		Закреслений
+Replace in all windows	FindandReplaceWindow		Замінити у всіх вікнах
+Save	SaveAlert		Зберегти
+Default	Open_and_SaveAsPanel		За замовчуванням
+Cancel	RevertToSavedAlert		Скасувати
+Cancel	FindandReplaceWindow		Скасувати
+Statistics…	Menus		Статистика…
+Encoding	Open_and_SaveAsPanel		Кодування
+Replace all	FindandReplaceWindow		Замінити все
+Close	Menus		Закрити
+Left	Menus		Вліво
+Default	Menus		Стандартний
+OK	SaveAlert		ОК
+Color	Menus		Колір
+StyledEdit	System name		StyledEdit
+Underline	Menus		Підкреслений
+Find:	FindandReplaceWindow		Знайти:
+Undo typing	QuitAlert		Відмінити набір тексту
+Don't save	SaveAlert		Не зберігати
+Reload…	Menus		Перезавантажити…
+Print…	Menus		Друкувати…
+Quit	Menus		Вийти
+Redo typing	QuitAlert		Повторити введення тексту
+Ignore	NodeMonitorAlerts		Ігнорувати
+Wrap lines	Menus		Перенос по словах
+Text encoding	Menus		Кодування
+Modified	StatusView		Змінений
+OK	LoadAlert		ОК
+Save	QuitAlert		Зберегти
+Case-sensitive	FindandReplaceWindow		Чутливий до регістра
+Find selection	Menus		Знайти вибране
+Find…	Menus		Знайти…
+Cancel	SaveAlert		Скасувати
+Revert	RevertToSavedAlert		Відкат змін
+Size	Menus		Розмір
+Decrease size	Menus		Зменшити розмір
+Autodetect	Menus		Автовизначення
+Replace next	Menus		Замінити наступний
+OK	QuitAlert		ОК
+Edit	Menus		Редагувати
+Replace with:	FindandReplaceWindow		Замінити на:
+Open…	Menus		Відкрити…
+Save as…	Menus		Зберегти як…
+Replace	FindandReplaceWindow		Замінити
+Characters:	Statistics		Символів:
+Don't save	QuitAlert		Не зберігати
+Align	Menus		Вирівняти
+Font	Menus		Шрифт
+Select all	Menus		Вибрати все
+Right	Menus		Вправо

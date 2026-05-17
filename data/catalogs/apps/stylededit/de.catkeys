@@ -1,0 +1,92 @@
+1	german	x-vnd.Haiku-StyledEdit	2777022576
+Document statistics	Statistics		Dokument-Statistik
+Cut	Menus		Ausschneiden
+Center	Menus		Zentriert
+Increase size	Menus		Vergrößern
+Page setup…	Menus		Seite einrichten …
+Wrap-around search	FindandReplaceWindow		Gesamtes Dokument durchsuchen
+OK	Statistics		OK
+Find	FindandReplaceWindow		Suchen
+New	Menus		Neu
+Document	Menus		Dokument
+Search backwards	FindandReplaceWindow		Rückwärts suchen
+Find again	Menus		Weitersuchen
+Read-only	StatusView		Schreibgeschützt
+Save	Menus		Speichern
+Untitled %d	Window title		Unbenannt %d
+Cannot revert, file not found: \"%filename%\".	RevertToSavedAlert		Rückgängig machen unmöglich, die Datei wurde nicht gefunden: \"%filename%\".
+Cancel	QuitAlert		Abbrechen
+Copy	Menus		Kopieren
+Reload	NodeMonitorAlerts		Neu laden
+line %d, column %d	StatusView		Zeile %d, Spalte %d
+Words:	Statistics		Wörter:
+???	LoadAlert		???
+Recover	NodeMonitorAlerts		Wiederherstellen
+Unable to unlock file\n\t%error%	QuitAlert		Die Datei konnte nicht entsperrt werden\n\t%error%
+OK	RevertToSavedAlert		OK
+Unlock file	StatusView		Datei entsperren
+Italic	Menus		Kursiv
+Can't undo	Menus		Rückgängig nicht möglich
+Replace…	Menus		Ersetzen …
+This file is marked read-only. Save changes to the document \"%filename%\"? 	SaveAlert		Diese Datei ist als schreibgeschützt gekennzeichnet. Änderungen am Dokument  \"%filename%\ speichern?
+File	Menus		Datei
+Paste	Menus		Einfügen
+Bold	Menus		Fett
+File \"%file%\" was modified by another application, reload it?	NodeMonitorAlerts		Die Datei \"%file%\" wurde von einer anderen Anwendung verändert.\nSoll sie neu geladen werden?
+File \"%file%\" was removed by another application, recover it?	NodeMonitorAlerts		Die Datei \"%file%\" wurde von einer anderen Anwendung entfernt. Soll sie wiederhergestellt werden?
+Lines:	Statistics		Zeilen:
+Strikeout	Menus		Durchgestrichen
+Replace in all windows	FindandReplaceWindow		In allen Fenstern ersetzen
+Error saving \"%filename%\":\n%error%	SaveAlert		Fehler beim Speichern von \"%filename%\":\n%error%
+Save changes to the document \"%title%\"?	QuitAlert		Geändertes Dokument \"%title%\" speichern? 
+Save	SaveAlert		Speichern
+\"%title%\" has unsaved changes.\nRevert it to the last saved version?	RevertToSavedAlert		\"%title%\" enthält ungespeicherte Änderungen.\nZuletzt gespeicherte Version wiederherstellen?
+Default	Open_and_SaveAsPanel		Standard
+Cancel	RevertToSavedAlert		Abbrechen
+Cancel	FindandReplaceWindow		Abbrechen
+Statistics…	Menus		Statistik …
+Encoding	Open_and_SaveAsPanel		Kodierung
+Replace all	FindandReplaceWindow		Alle ersetzen
+Close	Menus		Schließen
+Left	Menus		Links
+Default	Menus		Standard
+OK	SaveAlert		OK
+Color	Menus		Farbe
+StyledEdit	System name		Texteditor
+Underline	Menus		Unterstrichen
+Find:	FindandReplaceWindow		Suche:
+Undo typing	QuitAlert		Rückgängig: Eingabe
+Don't save	SaveAlert		Verwerfen
+Reload…	Menus		Neu laden …
+Print…	Menus		Drucken …
+Quit	Menus		Beenden
+Redo typing	QuitAlert		Wiederholen: Eingabe
+Ignore	NodeMonitorAlerts		Ignorieren
+Wrap lines	Menus		Zeilenumbruch
+Text encoding	Menus		Zeichenkodierung
+Modified	StatusView		Geändert
+OK	LoadAlert		OK
+Save	QuitAlert		Speichern
+Case-sensitive	FindandReplaceWindow		Groß-/Kleinschreibung beachten
+Find selection	Menus		Auswahl suchen
+Find…	Menus		Suchen …
+Cancel	SaveAlert		Abbrechen
+Revert	RevertToSavedAlert		Wiederherstellen
+Size	Menus		Größe
+Decrease size	Menus		Verkleinern
+Autodetect	Menus		Automatisch
+Replace next	Menus		Weiter ersetzen
+OK	QuitAlert		OK
+Edit	Menus		Bearbeiten
+Replace with:	FindandReplaceWindow		Ersetzen durch:
+Open…	Menus		Öffnen …
+Save as…	Menus		Speichern unter …
+Replace	FindandReplaceWindow		Ersetzen
+Characters:	Statistics		Zeichen:
+Error loading \"%filename%\":\n\tUnsupported format	LoadAlert		Fehler beim Öffnen von  \"%filename%\:\n\tDas Dateiformat wird nicht unterstützt.
+Don't save	QuitAlert		Verwerfen
+Align	Menus		Ausrichtung
+Font	Menus		Schrift
+Select all	Menus		Alles auswählen
+Right	Menus		Rechts
+Error loading \"%filename%\":\n\t%error%	LoadAlert		Fehler beim Laden von \"%filename%\":\n\t%error%

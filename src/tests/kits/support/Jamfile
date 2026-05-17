@@ -1,0 +1,51 @@
+SubDir HAIKU_TOP src tests kits support ;
+
+AddSubDirSupportedPlatforms libbe_test ;
+
+UnitTestLib libsupporttest.so
+	: SupportKitTestAddon.cpp
+		ArchivableTest.cpp
+		AutolockTest.cpp
+
+		BlockCacheExerciseTest.cpp
+		BlockCacheConcurrencyTest.cpp
+		ByteOrderTest.cpp
+
+		DateTimeTest.cpp
+
+		LockerConcurrencyTest.cpp
+		LockerConstructionTest.cpp
+		LockerDestructionTest.cpp
+		LockerLockCountTest.cpp
+
+		MemoryIOTest.cpp
+		MallocIOTest.cpp
+
+		PointerListTest.cpp
+
+		StopWatchTest.cpp
+		StringAccessTest.cpp
+		StringAppendTest.cpp
+		StringAssignTest.cpp
+		StringCaseTest.cpp
+		StringCompareTest.cpp
+		StringConstructionTest.cpp
+		StringEscapeTest.cpp
+		StringFormatAppendTest.cpp
+		StringInsertTest.cpp
+		StringPrependTest.cpp
+		StringRemoveTest.cpp
+		StringReplaceTest.cpp
+		StringSearchTest.cpp
+		StringSplitTest.cpp
+		StringSubCopyTest.cpp
+		StringUTF8Test.cpp
+
+	: be [ TargetLibstdc++ ] libsupporttest_RemoteTestObject.so
+;
+
+UsePrivateHeaders support ;
+
+SimpleTest compression_test : compression_test.cpp : be [ TargetLibsupc++ ] ;
+
+SubInclude HAIKU_TOP src tests kits support remoteobjectdef ;

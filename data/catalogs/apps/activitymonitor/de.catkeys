@@ -1,0 +1,52 @@
+1	german	x-vnd.Haiku-ActivityMonitor	775588635
+Teams	DataSource		Teams
+Temp	DataSource		Temp
+Block cache memory	DataSource		Block-Cache-Speicher
+Media nodes	DataSource		Media-Nodes
+Network send	DataSource		Netzwerk senden
+Threads	DataSource		Threads
+Remove graph	ActivityView		Graph entfernen
+ActivityMonitor	System name		Aktivitätsanzeige
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Aktualisierungsintervall:
+Settings…	ActivityWindow		Einstellungen …
+Unknown thermal sensor	SystemInfoHandler		Unbekannter Wärmesensor
+Block cache	DataSource		Block-Cache
+Memory	DataSource		Speicher
+No thermal sensor	SystemInfoHandler		Kein Wärmesensor
+CPU speed	DataSource		CPU-Takt
+CPU usage	DataSource		CPU-Auslastung
+Raw clipboard	DataSource		Raw-Ablage
+Settings	ActivityWindow		Einstellungen
+Used memory	DataSource		Benutzter Speicher
+Cached memory	DataSource		Gecachter Speicher
+Ports	DataSource		Ports
+Apps	DataSource		Apps
+Page faults	DataSource		Seitenfehler
+Add graph	ActivityWindow		Graphen hinzufügen
+Swap	DataSource		Auslagerung
+%s faults/s	DataSource		%s Fehler/s
+Temperature	DataSource		Temperatur
+Semaphores	DataSource		Semaphoren
+TX	DataSource	Shorter version for Sending	Senden
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Text-Ablage
+Running applications	DataSource		Laufende Anwendungen
+Cache	DataSource		Cache
+CPU usage (combined)	DataSource		CPU-Auslastung (alle)
+Receiving	DataSource		Empfangen
+Swap space	DataSource		Auslagerungsspeicher
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	Empfangen
+Quit	ActivityWindow		Beenden
+Show legend	ActivityView		Legende anzeigen
+File	ActivityWindow		Datei
+CPU %d speed	DataSource		CPU %d Takt
+CPU %d usage	DataSource		CPU %d Auslastung
+Additional items	ActivityView		Zusätzliche Elemente
+Sending	DataSource		Senden
+Always on top	ActivityWindow		Immer im Vordergrund
+Sems	DataSource		Sems
+P-faults	DataSource		Seitenfehler
+%lld sec.	SettingsWindow		%lld Sek.
+Network receive	DataSource		Netzwerk empfangen

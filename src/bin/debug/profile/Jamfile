@@ -1,0 +1,27 @@
+SubDir HAIKU_TOP src bin debug profile ;
+
+UsePrivateHeaders debug ;
+UsePrivateHeaders libroot ;
+UsePrivateHeaders shared ;
+UsePrivateSystemHeaders ;
+
+SubDirHdrs [ FDirName $(SUBDIR) $(DOTDOT) ] ;
+
+Application profile
+	:
+	BasicProfileResult.cpp
+	CallgrindProfileResult.cpp
+	Image.cpp
+	ProfiledEntity.cpp
+	ProfileResult.cpp
+	SharedImage.cpp
+	SummaryProfileResult.cpp
+	Team.cpp
+	Thread.cpp
+	profile.cpp
+	:
+	<bin>debug_utils.a
+	libdebug.so
+	[ TargetLibstdc++ ]
+	be
+;

@@ -1,0 +1,39 @@
+SubDir HAIKU_TOP src system libroot posix musl string ;
+
+SubDirSysHdrs [ FDirName $(SUBDIR) .. include ] ;
+UseHeaders [ FDirName $(SUBDIR) .. internal ] ;
+
+SubDirCcFlags -fno-builtin ;
+
+local architectureObject ;
+for architectureObject in [ MultiArchSubDirSetup ] {
+	on $(architectureObject) {
+		local architecture = $(TARGET_PACKAGING_ARCH) ;
+
+		MergeObject <$(architecture)>posix_musl_string.o :
+			index.c
+			memccpy.c
+			memchr.c
+			memmem.c
+			memmove.c
+			memrchr.c
+			stpcpy.c
+			stpncpy.c
+			strcat.c
+			strchr.c
+			strchrnul.c
+			strcpy.c
+			strcspn.c
+			strlcat.c
+			strlcpy.c
+			strlen.c
+			strncat.c
+			strnlen.c
+			strpbrk.c
+			strspn.c
+			strstr.c
+			strtok_r.c
+			swab.c
+			;
+	}
+}

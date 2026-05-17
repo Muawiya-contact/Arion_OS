@@ -1,0 +1,73 @@
+SubDir HAIKU_TOP src tests system kernel disk_device_manager ;
+
+SEARCH_SOURCE += [ FDirName $(HAIKU_TOP) src system kernel disk_device_manager ] ;
+SEARCH_SOURCE += [ FDirName $(HAIKU_TOP) src system kernel fs ] ;
+SEARCH_SOURCE += [ FDirName $(HAIKU_TOP) src kits storage disk_device ] ;
+	# DiskDeviceTypes.cpp
+
+SEARCH_SOURCE += [ FDirName $(HAIKU_TOP) src system kernel events ] ;
+	# Notifications.cpp
+
+UsePrivateKernelHeaders ;
+UsePrivateHeaders [ FDirName kernel boot platform $(TARGET_KERNEL_PLATFORM) ] ;
+UsePrivateHeaders [ FDirName kernel disk_device_manager ] ;
+UsePrivateHeaders [ FDirName kernel fs ] ;
+UsePrivateHeaders [ FDirName kernel util ] ;
+UsePrivateHeaders storage ;
+UseHeaders [ FDirName $(HAIKU_TOP) src system kernel disk_device_manager ] ;
+
+DEFINES += _KERNEL_MODE ;
+
+StaticLibrary test_disk_device_manager.a :
+#	ddm_userland_interface.cpp
+	disk_device_manager.cpp
+	KDiskDevice.cpp
+	KDiskDeviceManager.cpp
+	KFileDiskDevice.cpp
+	KDiskSystem.cpp
+	KFileSystem.cpp
+	KPartition.cpp
+	KPartitioningSystem.cpp
+	KPartitionListener.cpp
+	KPartitionVisitor.cpp
+	UserDataWriter.cpp
+
+	# disk device types
+	DiskDeviceTypes.cpp
+
+	# fs
+	KPath.cpp
+
+	# notifications
+	Notifications.cpp
+;
+
+UnitTestLib libkerneldiskdevicemanagertest.so :
+	DiskDeviceManagerTestAddon.cpp
+	KPartitionTest.cpp
+	: be [ TargetLibsupc++ ] [ TargetLibstdc++ ] test_disk_device_manager.a : libkernelland_emu.so
+;
+
+SimpleTest DiskDeviceManagerTest :
+	DiskDeviceManagerTest.cpp
+	: be [ TargetLibsupc++ ] test_disk_device_manager.a libkernelland_emu.so 
+;
+
+# Also build all modules:
+Depends DiskDeviceManagerTest : userland_disk_system_modules ;
+
+# Pseudo target for disk system modules.
+NotFile userland_disk_system_modules ;
+Depends userland_disk_system_modules :
+	libkernelland_emu.so
+	<file_system>bfs
+	<partitioning_system>intel
+	<partitioning_system>amiga_rdb
+	<partitioning_system>apple
+	<partitioning_system>session
+;
+
+# KFileDiskDevice.cpp needs the virtualdrive.h Header. Add it here to not
+# contaminate the include paths for the other files.
+ObjectHdrs [ FGristFiles KFileDiskDevice$(SUFOBJ) ]
+	: [ FDirName $(HAIKU_TOP) src tests kits storage virtualdrive ] ;

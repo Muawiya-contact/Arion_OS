@@ -1,0 +1,40 @@
+SubDir HAIKU_TOP src system boot arch m68k ;
+
+local platform ;
+for platform in [ MultiBootSubDirSetup amiga_m68k atari_m68k next_m68k ] {
+	on $(platform) {
+		local kernelArchSources =
+			arch_elf.cpp
+		;
+
+		local librootOsArchSources =
+			byteorder.S
+		;
+
+		BootMergeObject [ FGristFiles boot_arch_$(TARGET_KERNEL_ARCH).o ] :
+			$(kernelArchSources)
+			$(librootOsArchSources)
+			:
+		;
+
+		BootMergeObject boot_arch_m68k_030.o :
+			mmu_030.cpp
+			: -Wno-unused -mcpu=68030
+		;
+
+		BootMergeObject boot_arch_m68k_040.o :
+			mmu_040.cpp
+			: -Wno-unused -mcpu=68040 -Wa,-m68040
+		;
+
+		BootMergeObject boot_arch_m68k_060.o :
+			mmu_060.cpp
+			: -Wno-unused -mcpu=68060
+		;
+
+		SEARCH on [ FGristFiles $(kernelArchSources) ]
+			= [ FDirName $(HAIKU_TOP) src system kernel arch m68k ] ;
+		SEARCH on [ FGristFiles $(librootOsArchSources) ]
+			= [ FDirName $(HAIKU_TOP) src system libroot os arch m68k ] ;
+	}
+}

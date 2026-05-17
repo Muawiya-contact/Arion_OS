@@ -1,0 +1,21 @@
+SubDir HAIKU_TOP src system libroot posix stdio ;
+
+UsePrivateHeaders libroot shared ;
+
+local architectureObject ;
+for architectureObject in [ MultiArchSubDirSetup ] {
+	on $(architectureObject) {
+		local architecture = $(TARGET_PACKAGING_ARCH) ;
+
+		UsePrivateSystemHeaders ;
+
+		MergeObject <$(architecture)>posix_stdio.o :
+			_fseek.c
+			remove.c
+			rename.c
+			tempnam.c
+			tmpfile.c
+			tmpnam.c
+			;
+	}
+}

@@ -1,0 +1,48 @@
+1	polish	x-vnd.Haiku-ActivityMonitor	2467534740
+Teams	DataSource		Zespoły
+Block cache memory	DataSource		Blokowa pamięć podręczna
+Media nodes	DataSource		Węzły multimediów
+Network send	DataSource		Wysłane
+Threads	DataSource		Wątki
+Remove graph	ActivityView		Usuń wykres
+ActivityMonitor	System name		Monitor Aktywności
+CPU %d	DataSource		Procesor %d
+Update time interval:	SettingsWindow		Częstotliwość odświeżania:
+Settings…	ActivityWindow		Ustawienia…
+Block cache	DataSource		Blokowa pamięć podręczna
+Memory	DataSource		Pamięć
+CPU speed	DataSource		Prędkość procesora
+CPU usage	DataSource		Użycie procesora
+Raw clipboard	DataSource		Schowek binarny
+Settings	ActivityWindow		Ustawienia
+Used memory	DataSource		Używana pamięć
+Cached memory	DataSource		Pamięć podręczna
+Ports	DataSource		Porty
+Apps	DataSource		Aplikacje
+Page faults	DataSource		Błędy stronicowania
+Add graph	ActivityWindow		Dodaj wykres
+Swap	DataSource		Przestrzeń wymiany
+%s faults/s	DataSource		%s błędów/s
+Semaphores	DataSource		Semafory
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Schowek tekstowy
+Running applications	DataSource		Uruchomione aplikacje
+Cache	DataSource		Cache
+CPU usage (combined)	DataSource		Użycie procesora (całkowite)
+Receiving	DataSource		Otrzymane
+Swap space	DataSource		Przestrzeń wymiany
+CPU	DataSource		Procesor
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Zakończ
+Show legend	ActivityView		Pokaż legendę
+File	ActivityWindow		Plik
+CPU %d speed	DataSource		Prędkość procesora %d
+CPU %d usage	DataSource		Użycie procesora %d
+Additional items	ActivityView		Dodatkowe informacje
+Sending	DataSource		Wysłane
+Always on top	ActivityWindow		Zawsze na wierzchu
+Sems	DataSource		Semy
+P-faults	DataSource		P-błędy
+%lld sec.	SettingsWindow		%lld s
+Network receive	DataSource		Otrzymane

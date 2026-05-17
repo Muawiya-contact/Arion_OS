@@ -1,1 +1,0 @@
-// GDT setup (scaffold)

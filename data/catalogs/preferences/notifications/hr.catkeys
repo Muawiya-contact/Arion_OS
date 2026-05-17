@@ -1,0 +1,23 @@
+1	croatian	x-vnd.Haiku-Notifications	836765607
+Lower left	GeneralView		Dolje lijevo
+Application does not have a valid signature	NotificationView	Alert message	Aplikacija nema valjani potpis
+Status	NotificationView		Status
+Add…	NotificationView		Dodaj…
+Lower right	GeneralView		Dolje desno
+OK	PrefletWin		U redu
+Revert	PrefletWin		Obrnuto
+Applications	PrefletView		Programi
+Upper right	GeneralView		Gore desno
+Defaults	PrefletWin		Zadano
+Upper left	GeneralView		Gore lijevo
+Applications	NotificationView		Programi
+General	PrefletView		Općenito
+OK	NotificationView		U redu
+Notifications	System name		Obavijesti
+Allowed	NotificationView		Dopušteno
+Duration:	GeneralView		Trajanje:
+Enable notifications	GeneralView		Omogući obavijesti
+Application	NotificationView		Program
+This is a test notification message	PrefletWin		Ovo je testna poruka obavijesti
+Remove	NotificationView		Ukloni
+Position:	GeneralView		Pozicija:

@@ -1,0 +1,46 @@
+1	portuguese (brazil)	x-vnd.Haiku-ActivityMonitor	941112421
+Teams	DataSource		Equipes
+Block cache memory	DataSource		Bloquear memória em cache
+Media nodes	DataSource		Nós de mídia
+Network send	DataSource		Rede enviados
+Threads	DataSource		Processos
+Remove graph	ActivityView		Remover grafo
+ActivityMonitor	System name		Monitor de Atividade
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Intervalo entre atualizações
+Settings…	ActivityWindow		Configurações...
+Block cache	DataSource		Bloquear cache
+Memory	DataSource		Memória
+CPU speed	DataSource		Velocidade da CPU
+CPU usage	DataSource		Utilização da CPU
+Raw clipboard	DataSource		Área de transferência bruta
+Settings	ActivityWindow		Configurações
+Used memory	DataSource		Memória utilizada
+Cached memory	DataSource		Memória em cache
+Ports	DataSource		Portas
+Apps	DataSource		Aplicativos
+Page faults	DataSource		Falha de página
+Add graph	ActivityWindow		Adicionar grafo
+Swap	DataSource		Swap
+Semaphores	DataSource		Semáforos
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Área de transferência de texto
+Running applications	DataSource		Aplicativos em utilização
+Cache	DataSource		Cache
+CPU usage (combined)	DataSource		Utilização da CPU (combinado)
+Receiving	DataSource		Recebendo
+Swap space	DataSource		Espaço Swap
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Sair
+Show legend	ActivityView		Exibir legendas
+File	ActivityWindow		Arquivo
+CPU %d usage	DataSource		Uso de CPU %d
+Additional items	ActivityView		Itens adicionais
+Sending	DataSource		Enviando
+Always on top	ActivityWindow		Sempre visível
+Sems	DataSource		Sems
+P-faults	DataSource		P-falhas
+%lld sec.	SettingsWindow		%lld seg.
+Network receive	DataSource		Recebimento de rede

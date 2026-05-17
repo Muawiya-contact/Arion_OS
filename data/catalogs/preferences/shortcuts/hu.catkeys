@@ -1,0 +1,47 @@
+1	hungarian	x-vnd.Haiku-Shortcuts	641209832
+*MouseUp	ShortcutsWindow		*EgérFel
+Application	ShortcutsWindow		Program
+Option	ShortcutsSpec	Name for modifier on keyboard	Opció
+Save changes before closing?	ShortcutsWindow		Menti a változtatásokat kilépés előtt?
+Revert to saved	ShortcutsWindow		Visszaállítás az elmentettre
+Don't save	ShortcutsWindow		Ne mentse
+*MouseDown	ShortcutsWindow		*EgérLe
+%prefname% wasn't able to save your keyset.	ShortcutsWindow		A %prefname% nem tudta elmenteni a billentyűkombinációkat.
+*Beep	ShortcutsWindow		*Sípolás
+Save	ShortcutsWindow		Mentés
+Either	ShortcutsSpec		Bármelyik
+Oh no	ShortcutsWindow		Ó jaj
+%prefname% was unable to save your KeySet file!	ShortcutsWindow		A %prefname% nem tudta elmenteni a KeySet fájlt!
+Key	ShortcutsWindow		Billentyű
+*SendMessage application/x-vnd.Be-TRAK 'Tfnd'	ShortcutsWindow		*ÜzenetKüldés application/x-vnd.Be-TRAK 'Tfnd'
+Select	ShortcutsWindow		Kiválasztás
+Shortcuts	System name		Parancsgombok
+Quit	ShortcutsWindow		Kilépés
+(Choose application with file requester)	ShortcutsWindow		(A fájlkérővel válassz programot)
+Cancel	ShortcutsWindow		Mégse
+*MoveMouse +20 +0	ShortcutsWindow		*EgérMozgatás +20 +0
+Control	ShortcutsSpec	Name for modifier on keyboard	Ctrl
+Left	ShortcutsSpec		Bal
+*InsertString \"Your Text Here\"	ShortcutsWindow		*KarakterekBeszúrása \"Ide írja a szöveget\"
+Remove selected shortcut	ShortcutsWindow		Kiválasztott gyorsbillentyű eltávolítása
+Error, NULL state description?	ShortcutsSpec		Hiba, NULL állapotleírás?
+Alt	ShortcutsSpec	Name for modifier on keyboard	Alt
+Shortcuts was couldn't open your KeySet file!	ShortcutsWindow		A Parancsgombok nem tudta megnyitni a beállításfájlját!
+Save & apply	ShortcutsWindow		Mentés és alkalmazás
+Open	ShortcutsWindow		Megnyitás
+Append	ShortcutsWindow		Hozzáfűzés
+Both	ShortcutsSpec		Mindkettő
+Save KeySet as…	ShortcutsWindow		Beállítások mentése másként…
+Append KeySet…	ShortcutsWindow		Gyorsbillentyű hozzáadása…
+*MouseButton 1	ShortcutsWindow		*EgérGomb 1
+*Multi \"*MoveMouseTo 100% 0\" \"*MouseButton 1\"	ShortcutsWindow		*Multi \"*EgérMozgatásIde 100% 0\" \"*EgérGomb 1\"
+Right	ShortcutsSpec		Jobb
+OK	ShortcutsWindow		Rendben
+Add new shortcut	ShortcutsWindow		Új gyorsbillentyű hozzáadása
+(None)	ShortcutsSpec		(Nincs)
+Shift	ShortcutsSpec	Name for modifier on keyboard	Shift
+Open KeySet…	ShortcutsWindow		Gyorsbillentyű megnyitása…
+File	ShortcutsWindow		Fájl
+*LaunchHandler text/html	ShortcutsWindow		*Indítás text/html
+%prefname% was unable to parse your KeySet file!	ShortcutsWindow		A %prefname% nem tudta értelmezni a KeySet fájlt!
+*MoveMouseTo 50% 50%	ShortcutsWindow		*EgérMozgatásIde 50% 50%

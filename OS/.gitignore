@@ -1,8 +1,0 @@
-# Build outputs
-build/
-iso/
-
-# Editor
-.vscode/
-*.swp
-*.tmp

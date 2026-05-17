@@ -1,0 +1,30 @@
+SubDir HAIKU_TOP src bin network telnetd ;
+
+UseBuildFeatureHeaders ncurses ;
+UseHeaders [ FDirName $(HAIKU_TOP) headers compatibility bsd ] : true ;
+UseHeaders [ FDirName $(HAIKU_TOP) src libs ] : true ;
+UseHeaders [ FDirName $(HAIKU_TOP) src libs libtelnet ] : false ;
+UseHeaders [ FDirName $(SUBDIR) .. telnet ] : false ;
+
+SubDirCcFlags [ FDefines USE_TERMIO=1 INET6=1 ] ;
+
+local sources =
+	authenc.c
+	global.c
+	slc.c
+	state.c
+	sys_term.c
+	telnetd.c
+	termstat.c
+	utility.c
+;
+
+Includes [ FGristFiles $(sources) ]
+	: [ BuildFeatureAttribute ncurses : headers ] ;
+
+
+Application telnetd :
+	$(sources)
+	: [ BuildFeatureAttribute ncurses : library ] libtelnet.a libutil.a
+	libbsd.so $(TARGET_NETWORK_LIBS)
+;

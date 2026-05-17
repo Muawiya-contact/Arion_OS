@@ -1,0 +1,42 @@
+SubDir HAIKU_TOP src libs bsd ;
+
+UsePrivateHeaders libroot shared system ;
+UsePrivateHeaders [ FDirName system arch $(TARGET_ARCH) ] ;
+UseHeaders [ FDirName $(HAIKU_TOP) headers compatibility bsd ] : true ;
+
+local architectureObject ;
+for architectureObject in [ MultiArchSubDirSetup ] {
+	on $(architectureObject) {
+		SetVersionScript [ MultiArchDefaultGristFiles libbsd.so ] :
+			libbsd_versions ;
+
+		SharedLibrary [ MultiArchDefaultGristFiles libbsd.so ] :
+			arc4random.c
+			arc4random_uniform.c
+			closefrom.cpp
+			daemon.c
+			dl_iterate_phdr.c
+			err.c
+			explicit_bzero.c
+			fgetln.c
+			fts.c
+			getloadavg.cpp
+			getpass.c
+			issetugid.c
+			kqueue.cpp
+			lutimes.c
+			progname.c
+			pty.cpp
+			readpassphrase.c
+			signal.c
+			string.cpp
+			stringlist.c
+			strtonum.c
+			termios.c
+			unvis.c
+			usershell.c
+			vis.c
+			wait.c
+			;
+	}
+}

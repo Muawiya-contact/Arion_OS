@@ -1,0 +1,37 @@
+SubDir HAIKU_TOP src preferences appearance ;
+
+AddSubDirSupportedPlatforms libbe_test ;
+
+UsePrivateHeaders shared app interface [ FDirName servers app ] ;
+
+Application Appearance :
+	AntialiasingSettingsView.cpp
+	Appearance.cpp
+	AppearanceWindow.cpp
+	Colors.cpp
+	ColorsView.cpp
+	FakeScrollBar.cpp
+	FontSelectionView.cpp
+	FontView.cpp
+	LookAndFeelSettingsView.cpp
+
+	: be [ TargetLibstdc++ ] [ TargetLibsupc++ ] localestub shared
+	: Appearance.rdef
+	;
+
+DoCatalogs Appearance :
+	x-vnd.Haiku-Appearance
+	:
+	AntialiasingSettingsView.cpp
+	ColorsView.cpp
+	AppearanceWindow.cpp
+	Colors.cpp
+	LookAndFeelSettingsView.cpp
+	FontView.cpp
+	FontSelectionView.cpp
+;
+
+if $(TARGET_PLATFORM) = libbe_test {
+	HaikuInstall install-test-apps : $(HAIKU_APP_TEST_DIR) : Appearance
+		: tests!apps ;
+}

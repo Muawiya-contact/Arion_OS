@@ -1,0 +1,50 @@
+1	english	x-vnd.Haiku-ActivityMonitor	923507156
+Teams	DataSource		隊列
+Temp	DataSource		溫度
+Block cache memory	DataSource		區塊高速快取記憶體
+Media nodes	DataSource		媒體節點
+Network send	DataSource		網路傳送
+Threads	DataSource		執行緒數
+Remove graph	ActivityView		移除圖表
+ActivityMonitor	System name		活動監視器
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		更新時間間隔：
+Settings…	ActivityWindow		設定…
+Block cache	DataSource		塊快取
+Memory	DataSource		記憶體
+CPU speed	DataSource		CPU速度
+CPU usage	DataSource		CPU使用率
+Raw clipboard	DataSource		原始剪貼簿
+Settings	ActivityWindow		設定
+Used memory	DataSource		使用記憶體
+Cached memory	DataSource		快取記憶體
+Ports	DataSource		端口
+Apps	DataSource		應用程式
+Page faults	DataSource		頁面錯誤
+Add graph	ActivityWindow		新增圖表
+Swap	DataSource		交換空間
+%s faults/s	DataSource		%s 故障/秒
+Temperature	DataSource		溫度
+Semaphores	DataSource		信號量
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld 毫秒
+Text clipboard	DataSource		文字剪貼簿
+Running applications	DataSource		運行應用程式
+Cache	DataSource		快取
+CPU usage (combined)	DataSource		CPU使用率（合併）
+Receiving	DataSource		接收
+Swap space	DataSource		交換空間
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		退出
+Show legend	ActivityView		顯示圖例
+File	ActivityWindow		檔案
+CPU %d speed	DataSource		CPU %d 速度
+CPU %d usage	DataSource		CPU %d 使用率
+Additional items	ActivityView		附加項目
+Sending	DataSource		傳送
+Always on top	ActivityWindow		始終位於頂部
+Sems	DataSource		Sems
+P-faults	DataSource		P-faults
+%lld sec.	SettingsWindow		%lld 秒
+Network receive	DataSource		網路接收

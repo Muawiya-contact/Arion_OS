@@ -1,0 +1,58 @@
+SubDir HAIKU_TOP src tools cppunit ;
+
+AddSubDirSupportedPlatforms libbe_test ;
+
+UseHeaders [ FDirName $(HAIKU_TOP) headers tools elfsymbolpatcher ] : true ;
+UseCppUnitHeaders ;
+
+SEARCH_SOURCE += [ FDirName $(SUBDIR) cppunit ] ;
+
+{
+	DEFINES += BUILDING_CPPUNIT ;
+
+	if $(OSPLAT) = PPC {
+		DEFINES += NO_ELF_SYMBOL_PATCHING ;
+	}
+}
+
+MakeLocate libcppunit.so : $(TARGET_UNIT_TEST_LIB_DIR) ;
+
+SharedLibrary libcppunit.so :
+	BTestCase.cpp
+	BTestSuite.cpp
+	SemaphoreSyncObject.cpp
+	TestApp.cpp
+	TestListener.cpp
+	TestShell.cpp
+	TestUtils.cpp
+	ThreadedTestCase.cpp
+
+	# cppunit
+	Asserter.cpp
+	CompilerOutputter.cpp
+	Exception.cpp
+	NotEqualException.cpp
+	RepeatedTest.cpp
+	SourceLine.cpp
+	SynchronizedObject.cpp
+	TestAssert.cpp
+	TestCase.cpp
+	TestFactoryRegistry.cpp
+	TestFailure.cpp
+	TestResult.cpp
+	TestResultCollector.cpp
+	TestRunner.cpp
+	TestSetUp.cpp
+	TestSucessListener.cpp
+	TestSuite.cpp
+	TextOutputter.cpp
+	TextTestProgressListener.cpp
+	TextTestResult.cpp
+	TypeInfoHelper.cpp
+	XmlOutputter.cpp
+	: be [ TargetLibstdc++ ]
+;
+
+if $(OSPLAT) != PPC {
+	LinkAgainst libcppunit.so : libelfsymbolpatcher.a debug ;
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id": "http://depot.haiku-os.org/schema/reference/dumpreference.json",
+  "title": "Reference",
+  "javaType": "org.haiku.haikudepotserver.reference.model.dumpexport.DumpExportReference",
+  "type": "object",
+  "properties": {
+    "naturalLanguages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "javaType": "org.haiku.haikudepotserver.reference.model.dumpexport.DumpExportReferenceNaturalLanguage",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "languageCode": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}$"
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]{2,3}$"
+          },
+          "scriptCode": {
+            "type": "string",
+            "pattern": "^[A-Z]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isPopular": {
+            "type": "boolean"
+          },
+          "hasData": {
+            "type": "boolean",
+            "description": "True if there are any user ratings or localizations present for this language."
+          },
+          "hasLocalizationMessages": {
+            "type": "boolean",
+            "description": "True if there are localizations for the HaikuDepotServer application present for this language."
+          }
+        }
+      }
+    },
+    "pkgCategories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "javaType": "org.haiku.haikudepotserver.reference.model.dumpexport.DumpExportReferencePkgCategory",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "userRatingStabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "javaType": "org.haiku.haikudepotserver.reference.model.dumpexport.DumpExportReferenceUserRatingStability",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ordering": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "javaType": "org.haiku.haikudepotserver.reference.model.dumpexport.DumpExportReferenceCountry",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

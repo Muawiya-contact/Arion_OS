@@ -1,0 +1,20 @@
+SubDir HAIKU_TOP src bin debug ltrace ;
+
+UsePrivateHeaders debug ;
+UsePrivateHeaders runtime_loader ;
+UsePrivateHeaders shared ;
+UsePrivateSystemHeaders ;
+
+Application ltrace
+	:
+	ltrace.cpp
+;
+
+SharedLibrary libltrace_stub.so
+	:
+	ltrace_stub.cpp
+	:
+	arch_ltrace_stub.a
+;
+
+HaikuSubInclude arch $(TARGET_ARCH) ;

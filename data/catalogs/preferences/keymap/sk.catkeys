@@ -1,0 +1,47 @@
+1	slovak	x-vnd.Haiku-Keymap	246759912
+Key	Modifier keys window	As in a computer keyboard key	Kláves
+Option:	Modifier keys window	Option key role name	Voľba:
+Cancel	Modifier keys window		Zrušiť
+Sample and clipboard:	Keymap window		Vzor a schránka:
+Switch shortcut keys to Windows/Linux mode	Keymap window		Vymeniť skratkové klávesy na režim Windows/Linux
+Option	Keyboard Layout View	Option key	Alt
+Revert	Modifier keys window		Vrátiť
+Set modifier keys	Modifier keys window		Nastaviť modifikačné klávesy
+Win/Cmd key	Modifier keys window	Label of the \"Windows\" key (PC)/Command key (Mac)	Kláves Win/Cmd
+Command:	Modifier keys window	Command key role name	Príkaz:
+Acute trigger	Keymap window		Spúšťač dĺžeň
+Modifier keys	Modifier keys window		Modifikačné klávesy
+Save as…	Keymap window		Uložiť ako…
+Error: duplicate keys	Modifier keys window		Chyba: Duplicitné kľúče
+Control	Keyboard Layout View	Control key	Control
+Remove	Keyboard Layout View		Odstrániť
+Tilde trigger	Keymap window		Spúšťač tilda
+Shift	Keyboard Layout View	Shift key	Shift
+(Current)	Keymap window		(aktuálne)
+Warning: left and right key roles do not match	Modifier keys window		Upozornenie: role ľavého a pravého klávesu sa líšia
+Circumflex trigger	Keymap window		Spúšťač vokáň
+Role	Modifier keys window	As in the role of a modifier key	Úloha
+Ctrl key	Modifier keys window	Label of key farthest from the spacebar, usually Ctrle.g. Strg for German keyboard	Kláves Ctrl
+Control:	Modifier keys window	Control key role name	Control:
+Disabled	Modifier keys window	Do nothing	Vypnuté
+Select dead keys	Keymap window		Vyberte mŕtve klávesy
+Layout	Keymap window		Rozloženie
+Revert	Keymap window		Vrátiť
+Grave trigger	Keymap window		Spúšťač apostrof
+Menu	Keyboard Layout View	Menu key	Menu
+Quit	Keymap window		Ukončiť
+User:	Keymap window		Používateľ:
+Alt/Opt key	Modifier keys window	Label of Alt key (PC)/Option key (Mac)	Kláves Alt/Opt
+Shift:	Modifier keys window	Shift key role name	Posun:
+Keymap	System name		Mapa kláves
+Set modifier keys…	Keymap window		Nastaviť klávesy modifikátorov…
+Switch shortcut keys to Haiku mode	Keymap window		Vymeniť skratkové klávesy na režim Haiku
+Defaults	Keymap window		Predvolené
+System:	Keymap window		Systém:
+Switch shortcut keys	Keymap window		Vymeniť skratkové klávesy
+Font	Keymap window		Písmo
+Shift key	Modifier keys window	Label of key above Ctrl, usually Shift	Kláves Shift
+Command	Keyboard Layout View	Command key	Príkaz
+File	Keymap window		Súbor
+Diaeresis trigger	Keymap window		Spúšťač rozluky
+Open…	Keymap window		Otvoriť…

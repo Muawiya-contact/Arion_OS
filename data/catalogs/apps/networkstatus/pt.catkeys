@@ -1,0 +1,21 @@
+1	portuguese	x-vnd.Haiku-NetworkStatus	2510618206
+IPv6 address:	NetworkStatusView		Endereço IPv6:
+Quit	NetworkStatusView		Sair
+Unknown	NetworkStatusView		Desconhecido
+Launching the network preflet failed.\n\nError: 	NetworkStatusView		Falha ao iniciar o preflet de rede.\n\nErro: 
+Install in Deskbar	NetworkStatus		Instalar na Deskbar
+Open network preferences…	NetworkStatusView		Abrir preferências de rede…
+NetworkStatus	System name		Estado da Rede
+Broadcast:	NetworkStatusView		Broadcast:
+OK	NetworkStatusView		OK
+No link	NetworkStatusView		Sem ligação
+Could not join wireless network:\n	NetworkStatusView		Não foi possível aceder à rede sem fios:\n
+Network Status	NetworkStatusView		Estado da Rede
+Deskbar is not running, giving up.	NetworkStatus		A Deskbar não se encontra em execução, a desistir.
+Netmask:	NetworkStatusView		Máscara de rede:
+No stateful configuration	NetworkStatusView		Sem configuração de monitorização de estado
+IPv4 address:	NetworkStatusView		Endereço IPv4:
+%ifaceName information:\n	NetworkStatusView		Informação sobre %ifaceName:\n
+Run in window	NetworkStatus		Executar em janela
+<no wireless networks found>	NetworkStatusView		<não foram encontradas redes sem fios>
+Configuring	NetworkStatusView		A configurar

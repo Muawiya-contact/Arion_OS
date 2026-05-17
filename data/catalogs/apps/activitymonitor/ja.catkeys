@@ -1,0 +1,52 @@
+1	japanese	x-vnd.Haiku-ActivityMonitor	775588635
+Teams	DataSource		チーム数
+Temp	DataSource		温度
+Block cache memory	DataSource		ブロックキャッシュメモリ
+Media nodes	DataSource		メディアノード数
+Network send	DataSource		ネットワーク送信量
+Threads	DataSource		スレッド数
+Remove graph	ActivityView		グラフの削除
+ActivityMonitor	System name		アクティビティモニター
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		更新間隔:
+Settings…	ActivityWindow		設定...
+Unknown thermal sensor	SystemInfoHandler		不明な温度センサー
+Block cache	DataSource		ブロックキャッシュ
+Memory	DataSource		メモリ
+No thermal sensor	SystemInfoHandler		温度センサー無し
+CPU speed	DataSource		CPU 速度
+CPU usage	DataSource		CPU 使用率
+Raw clipboard	DataSource		バイナリクリップボード
+Settings	ActivityWindow		設定
+Used memory	DataSource		使用メモリ
+Cached memory	DataSource		キャッシュメモリ
+Ports	DataSource		ポート数
+Apps	DataSource		アプリ
+Page faults	DataSource		ページフォールト数
+Add graph	ActivityWindow		グラフの追加
+Swap	DataSource		スワップ
+%s faults/s	DataSource		%s faults/s
+Temperature	DataSource		温度
+Semaphores	DataSource		セマフォ数
+TX	DataSource	Shorter version for Sending	送信
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		テキストクリップボード
+Running applications	DataSource		実行中のアプリケーション数
+Cache	DataSource		キャッシュ
+CPU usage (combined)	DataSource		CPU 使用率 (合計)
+Receiving	DataSource		受信量
+Swap space	DataSource		スワップサイズ
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	受信
+Quit	ActivityWindow		終了
+Show legend	ActivityView		説明の表示
+File	ActivityWindow		ファイル
+CPU %d speed	DataSource		CPU %d 速度
+CPU %d usage	DataSource		CPU %d 使用率
+Additional items	ActivityView		追加項目
+Sending	DataSource		送信量
+Always on top	ActivityWindow		常に最前面
+Sems	DataSource		セマフォ
+P-faults	DataSource		ページフォルト
+%lld sec.	SettingsWindow		%lld 秒
+Network receive	DataSource		ネットワーク受信量

@@ -1,0 +1,40 @@
+SubDir HAIKU_TOP src add-ons kernel drivers network ether ;
+
+# Haiku-native drivers
+HaikuSubInclude etherpci ;
+HaikuSubInclude virtio ;
+HaikuSubInclude usb_davicom ;
+HaikuSubInclude usb_ecm ;
+HaikuSubInclude usb_rndis ;
+HaikuSubInclude wb840 ;
+
+# FreeBSD drivers
+HaikuSubInclude 3com ;
+HaikuSubInclude asix88xxx ;
+HaikuSubInclude atheros81xx ;
+HaikuSubInclude atheros813x ;
+HaikuSubInclude attansic_l1 ;
+HaikuSubInclude attansic_l2 ;
+HaikuSubInclude broadcom570x ;
+HaikuSubInclude broadcom440x ;
+HaikuSubInclude dec21xxx ;
+HaikuSubInclude intel22x ;
+HaikuSubInclude ipro100 ;
+HaikuSubInclude ipro1000 ;
+HaikuSubInclude jmicron2x0 ;
+HaikuSubInclude marvell_yukon ;
+HaikuSubInclude nforce ;
+HaikuSubInclude pcnet ;
+HaikuSubInclude pegasus ;
+HaikuSubInclude rdc ;
+HaikuSubInclude rtl8139 ;
+HaikuSubInclude rtl81xx ;
+HaikuSubInclude sis19x ;
+HaikuSubInclude sis900 ;
+HaikuSubInclude syskonnect ;
+HaikuSubInclude via_rhine ;
+HaikuSubInclude vmx ;
+HaikuSubInclude vt612x ;
+
+# OpenBSD drivers
+HaikuSubInclude rtl8125 ;

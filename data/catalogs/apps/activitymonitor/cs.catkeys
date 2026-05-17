@@ -1,0 +1,48 @@
+1	czech	x-vnd.Haiku-ActivityMonitor	2467534740
+Teams	DataSource		Týmy
+Block cache memory	DataSource		Bloková vyrovnávací paměť
+Media nodes	DataSource		Mediální uzly
+Network send	DataSource		Odesláno sítí
+Threads	DataSource		Vlákna
+Remove graph	ActivityView		Odebrat graf
+ActivityMonitor	System name		Monitor aktivit
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Interval obnovení:
+Settings…	ActivityWindow		Nastavení…
+Block cache	DataSource		Bloková vyrovnávací paměť
+Memory	DataSource		Paměť
+CPU speed	DataSource		Rychlost CPU
+CPU usage	DataSource		Využití CPU
+Raw clipboard	DataSource		Schránka bez formátu
+Settings	ActivityWindow		Nastavení
+Used memory	DataSource		Využitá paměť
+Cached memory	DataSource		Vyrovnávací paměť
+Ports	DataSource		Porty
+Apps	DataSource		Aplikace
+Page faults	DataSource		Chyby stránkování
+Add graph	ActivityWindow		Přidat graf
+Swap	DataSource		Odkládací soubor
+%s faults/s	DataSource		%s chyb/s
+Semaphores	DataSource		Semafory
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Textová schránka
+Running applications	DataSource		Spuštěné aplikace
+Cache	DataSource		Mezipaměť
+CPU usage (combined)	DataSource		Využití CPU (kombinované)
+Receiving	DataSource		Přijímání
+Swap space	DataSource		Odkládací prostor
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Ukončit
+Show legend	ActivityView		Zobrazit legendu
+File	ActivityWindow		Soubor
+CPU %d speed	DataSource		Rychlost CPU %d
+CPU %d usage	DataSource		Využití CPU %d
+Additional items	ActivityView		Přídavné položky
+Sending	DataSource		Odesílání
+Always on top	ActivityWindow		Vždy navrchu
+Sems	DataSource		Sem
+P-faults	DataSource		P-faults
+%lld sec.	SettingsWindow		%lld sek.
+Network receive	DataSource		Přijato sítí

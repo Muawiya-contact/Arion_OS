@@ -1,0 +1,83 @@
+1	russian	x-vnd.Haiku-StyledEdit	3212551798
+Document statistics	Statistics		Статистика документа
+Cut	Menus		Вырезать
+Center	Menus		По центру
+Increase size	Menus		Увеличить размер
+Page setup…	Menus		Настройка печати…
+Wrap-around search	FindandReplaceWindow		Поиск по всему документу
+OK	Statistics		ОК
+Find	FindandReplaceWindow		Найти
+New	Menus		Новый
+Document	Menus		Документ
+Search backwards	FindandReplaceWindow		Искать снизу вверх
+Find again	Menus		Найти далее
+Read-only	StatusView		Только чтение
+Save	Menus		Сохранить
+Cancel	QuitAlert		Отмена
+Copy	Menus		Копировать
+Reload	NodeMonitorAlerts		Перезагрузить
+line %d, column %d	StatusView		линия %d, позиция %d
+Words:	Statistics		Слов:
+???	LoadAlert		???
+Recover	NodeMonitorAlerts		Восстановить
+OK	RevertToSavedAlert		ОК
+Unlock file	StatusView		Разблокировать
+Italic	Menus		Наклонный
+Can't undo	Menus		Невозможно отменить
+Replace…	Menus		Заменить…
+File	Menus		Файл
+Paste	Menus		Вставить
+Bold	Menus		Жирный
+File \"%file%\" was modified by another application, reload it?	NodeMonitorAlerts		Файл \"%file%\" был изменен другой программой, перезагрузить его?
+File \"%file%\" was removed by another application, recover it?	NodeMonitorAlerts		Файл \"%file%\" был удален другой программой, восстановить его?
+Lines:	Statistics		Строк:
+Strikeout	Menus		Зачёркнутый
+Replace in all windows	FindandReplaceWindow		Заменить во всех окнах
+Save	SaveAlert		Сохранить
+Default	Open_and_SaveAsPanel		По умолчанию
+Cancel	RevertToSavedAlert		Отмена
+Cancel	FindandReplaceWindow		Отмена
+Statistics…	Menus		Статистика…
+Encoding	Open_and_SaveAsPanel		Кодировка
+Replace all	FindandReplaceWindow		Заменить все
+Close	Menus		Закрыть
+Left	Menus		По левому краю
+Default	Menus		По умолчанию
+OK	SaveAlert		ОК
+Color	Menus		Цвет
+StyledEdit	System name		StyledEdit
+Underline	Menus		Подчёркнутый
+Find:	FindandReplaceWindow		Найти:
+Undo typing	QuitAlert		Отменить ввод
+Don't save	SaveAlert		Не сохранять
+Reload…	Menus		Перезагрузить…
+Print…	Menus		Печать…
+Quit	Menus		Выход
+Redo typing	QuitAlert		Повторить ввод
+Ignore	NodeMonitorAlerts		Игнорировать
+Wrap lines	Menus		Перенос строк
+Text encoding	Menus		Кодировка
+Modified	StatusView		Изменён
+OK	LoadAlert		ОК
+Save	QuitAlert		Сохранить
+Case-sensitive	FindandReplaceWindow		Учитывать регистр
+Find selection	Menus		Найти выделенное
+Find…	Menus		Найти…
+Cancel	SaveAlert		Отмена
+Revert	RevertToSavedAlert		Вернуть
+Size	Menus		Размер
+Decrease size	Menus		Уменьшить размер
+Autodetect	Menus		Автоопределение
+Replace next	Menus		Заменить далее
+OK	QuitAlert		ОК
+Edit	Menus		Изменить
+Replace with:	FindandReplaceWindow		Заменить на:
+Open…	Menus		Открыть…
+Save as…	Menus		Сохранить как…
+Replace	FindandReplaceWindow		Заменить
+Characters:	Statistics		Символов:
+Don't save	QuitAlert		Не сохранять
+Align	Menus		Выровнять
+Font	Menus		Шрифт
+Select all	Menus		Выделить всё
+Right	Menus		По правому краю

@@ -1,0 +1,52 @@
+1	turkish	x-vnd.Haiku-ActivityMonitor	775588635
+Teams	DataSource		Takımlar
+Temp	DataSource		Sıcaklık
+Block cache memory	DataSource		Blok önbellek dosyası
+Media nodes	DataSource		Ortam düğümleri
+Network send	DataSource		Ağ giden trafik
+Threads	DataSource		İş parçacıkları
+Remove graph	ActivityView		Grafiği kaldır
+ActivityMonitor	System name		Etkinlik Monitörü
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Yenileme aralığı:
+Settings…	ActivityWindow		Ayarlar…
+Unknown thermal sensor	SystemInfoHandler		Bilinmeyen ısı algılayıcısı
+Block cache	DataSource		Blok önbelleği
+Memory	DataSource		Bellek
+No thermal sensor	SystemInfoHandler		Termal algılayıcı yok
+CPU speed	DataSource		CPU hızı
+CPU usage	DataSource		CPU kullanımı
+Raw clipboard	DataSource		Ham pano
+Settings	ActivityWindow		Ayarlar
+Used memory	DataSource		Kullanılan bellek
+Cached memory	DataSource		Önbellekteki dosya
+Ports	DataSource		Kapılar
+Apps	DataSource		Uygulamalar
+Page faults	DataSource		Sayfa hatası
+Add graph	ActivityWindow		Grafik ekle
+Swap	DataSource		Takas
+%s faults/s	DataSource		%s hata/sn
+Temperature	DataSource		Sıcaklık
+Semaphores	DataSource		Semaforlar
+TX	DataSource	Shorter version for Sending	TX
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Metin panosu
+Running applications	DataSource		Çalışan uygulamalar
+Cache	DataSource		Önbellek
+CPU usage (combined)	DataSource		CPU kullanımı (birleştirilmiş)
+Receiving	DataSource		Alınıyor
+Swap space	DataSource		Takas alanı
+CPU	DataSource		CPU
+RX	DataSource	Shorter version for Receiving.	RX
+Quit	ActivityWindow		Çık
+Show legend	ActivityView		Göstergeleri aç
+File	ActivityWindow		Dosya
+CPU %d speed	DataSource		%d. CPU hızı
+CPU %d usage	DataSource		%d. CPU kullanımı
+Additional items	ActivityView		Ek ögeler
+Sending	DataSource		Gönderiliyor
+Always on top	ActivityWindow		Her zaman üstte
+Sems	DataSource		Semler
+P-faults	DataSource		Olasılık hataları
+%lld sec.	SettingsWindow		%lld san.
+Network receive	DataSource		Ağ gelen trafik

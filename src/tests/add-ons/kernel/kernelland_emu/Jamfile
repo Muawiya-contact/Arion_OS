@@ -1,0 +1,34 @@
+SubDir HAIKU_TOP src tests add-ons kernel kernelland_emu ;
+
+UsePrivateKernelHeaders ;
+UsePrivateHeaders shared ;
+
+SharedLibrary libkernelland_emu.so :
+	condition_variable.cpp
+	debug.cpp
+	device_manager.cpp
+	heap.cpp
+	KernelReferenceable.cpp
+	KPath.cpp
+	lock.cpp
+	low_resource_manager.cpp
+	MessagingService.cpp
+	misc.cpp
+	module.cpp
+	node_monitor.cpp
+	Random.cpp
+	slab.cpp
+	smp.cpp
+	team.cpp
+	vfs.cpp
+	vm.cpp
+
+	list.cpp
+	StringHash.cpp
+
+	: be [ TargetLibstdc++ ] ;
+
+SEARCH on [ FGristFiles
+		list.cpp
+		StringHash.cpp
+	] = [ FDirName $(HAIKU_TOP) src system kernel util ] ;

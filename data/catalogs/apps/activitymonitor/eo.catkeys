@@ -1,0 +1,45 @@
+1	esperanto	x-vnd.Haiku-ActivityMonitor	3094058302
+Teams	DataSource		Teamoj
+Block cache memory	DataSource		Bloka kaŝmemoro
+Media nodes	DataSource		Plurmediaj nodoj
+Network send	DataSource		Reta elsendado
+Threads	DataSource		Fadenoj
+Remove graph	ActivityView		Forigi diagramon
+ActivityMonitor	System name		ObserviloDeAktiveco
+CPU %d	DataSource		CPU %d
+Update time interval:	SettingsWindow		Tempo inter ĝisdatigoj:
+Settings…	ActivityWindow		Agordo…
+Block cache	DataSource		Bloka kaŝmemoro
+Memory	DataSource		Memoro
+CPU usage	DataSource		Uzado de ĉefprocesoro
+Raw clipboard	DataSource		Kruda tondujo
+Settings	ActivityWindow		Agordo
+Used memory	DataSource		Uzita memoro
+Cached memory	DataSource		Kaŝita memoro
+Ports	DataSource		Pordoj
+Apps	DataSource		Programoj
+Page faults	DataSource		Permutodosieraj eraroj
+Add graph	ActivityWindow		Aldoni grafeon
+Swap	DataSource		Permutado
+Semaphores	DataSource		Semaforoj
+TX	DataSource	Shorter version for Sending	Elsendado
+%lld ms	SettingsWindow		%lld ms
+Text clipboard	DataSource		Teksta tondujo
+Running applications	DataSource		Rulataj programoj
+Cache	DataSource		Kaŝmemoro
+CPU usage (combined)	DataSource		Ĉefprocesora uzado (kune)
+Receiving	DataSource		Ricevado
+Swap space	DataSource		Permutejo
+CPU	DataSource		Ĉefprocesoro
+RX	DataSource	Shorter version for Receiving.	Ricevado
+Quit	ActivityWindow		Ĉesi
+Show legend	ActivityView		Montri klarigeton
+File	ActivityWindow		Dosiero
+CPU %d usage	DataSource		CPU %d uzado
+Additional items	ActivityView		Pluaj eroj
+Sending	DataSource		Elsendado
+Always on top	ActivityWindow		Ĉiam videbla
+Sems	DataSource		Semoj
+P-faults	DataSource		P-misfunkcioj
+%lld sec.	SettingsWindow		%lld sek.
+Network receive	DataSource		Reta ricevado

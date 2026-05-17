@@ -1,0 +1,48 @@
+1	russian	x-vnd.Haiku-PowerStatus	388505242
+Run in window	PowerStatus		Запустить в окне
+Extended battery info	PowerStatus		Расширенные сведения о батарее
+Show status icon	PowerStatus		Показать значок статуса
+Battery charging	PowerStatus		Батарея заряжается
+Design capacity low warning: 	PowerStatus		Уровень полного разряда: 
+The battery level is critical, please plug in the device immediately.	PowerStatus		Критический уровень заряда батареи, пожалуйста, подключите устройство к сети прямо сейчас.
+non-rechargeable	PowerStatus		неперезаряжаемая
+Last full charge: 	PowerStatus		Последняя полная зарядка: 
+ mV	PowerStatus		 мВ
+Current rate: 	PowerStatus		Текущее значение: 
+Show text label	PowerStatus		Показать текстовую метку
+Quit	PowerStatus		Выход
+Battery not charging	PowerStatus		Батарея не заряжается
+Battery low	PowerStatus		Низкий заряд батареи
+Model number: 	PowerStatus		Номер модели: 
+Battery unused	PowerStatus		Батарея не используется
+Type: 	PowerStatus		Тип: 
+Damaged or missing battery	PowerStatus		Повреждён или отсутствует аккумулятор
+ mAh	PowerStatus		 мА·ч
+Battery discharging	PowerStatus		Батарея разряжается
+Design voltage: 	PowerStatus		Штатное напряжение: 
+discharging	PowerStatus		разрядка
+rechargeable	PowerStatus		перезаряжаемая
+Battery info…	PowerStatus		Информация о батарее…
+Show time	PowerStatus		Показать время
+ mA	PowerStatus		 мА
+About…	PowerStatus		О программе…
+Serial number: 	PowerStatus		Серийный номер: 
+Battery critical	PowerStatus		Критический заряд батареи
+Capacity: 	PowerStatus		Ёмкость: 
+ mW	PowerStatus		 мВт
+Show percent	PowerStatus		Показать в процентах
+Capacity granularity 1: 	PowerStatus		Детализация ёмкости 1: 
+The battery level is getting low, please plug in the device.	PowerStatus		Заряд батареи становится слишком низким, пожалуйста, подключите устройство к сети.
+Design capacity warning: 	PowerStatus		Уровень низкого заряда: 
+Capacity granularity 2: 	PowerStatus		Детализация ёмкости 2: 
+Too bad!	PowerStatus		Очень жаль!
+Technology: 	PowerStatus		Технология: 
+not charging	PowerStatus		нет зарядки
+ mWh	PowerStatus		 мВт⋅ч
+PowerStatus	System name		Электропитание
+Design capacity: 	PowerStatus		Штатная ёмкость: 
+OEM info: 	PowerStatus		Изготовитель: 
+no battery	PowerStatus		без батареи
+Empty battery slot	PowerStatus		Пустой слот батареи
+Install in Deskbar	PowerStatus		Установить в Deskbar
+charging	PowerStatus		зарядка

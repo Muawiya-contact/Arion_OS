@@ -1,0 +1,24 @@
+SubDir HAIKU_TOP src tests kits net service ;
+
+UsePrivateHeaders netservices private shared ;
+
+AddSubDirSupportedPlatforms libbe_test ;
+
+UnitTestLib servicekittest.so :
+	ServiceKitTestAddon.cpp
+
+	CookieTest.cpp
+	DataTest.cpp
+	GeolocationTest.cpp
+	HttpTest.cpp
+	UrlTest.cpp
+	FileTest.cpp
+	TestServer.cpp
+
+	: be libnetservices.a shared $(TARGET_NETWORK_LIBS) $(HAIKU_NETAPI_LIB)
+	[ TargetLibstdc++ ]
+	;
+
+local destDir = [ FDirName kits service ] ;
+UnitTestResources proxy.py testserver.py : $(destDir) : isExec ;
+UnitTestResources testfile.txt : $(destDir) ;
