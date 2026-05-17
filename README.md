@@ -29,11 +29,11 @@ This project was built while studying the following resources:
 
 ### Boot Screen — Intro Splash
 ![Boot Screen](imgs/boot_screen.png)
-_placeholder — add boot screenshot_
+
 
 ### Desktop
 ![Desktop](imgs/desktop.png)
-_placeholder — add desktop screenshot_
+
 
 ---
 
