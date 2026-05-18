@@ -372,4 +372,4 @@
 
 ---
 
-_Arion OS — Study Notes | Powered by Coding Moves ✦_
+_Arion OS — Study Notes, Author: [@Muawiya-contact](https://github.com/@Muawiya-contact) | Powered by Coding Moves ✦_
